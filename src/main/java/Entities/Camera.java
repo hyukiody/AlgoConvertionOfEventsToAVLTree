@@ -39,4 +39,11 @@ public class Camera {
     public void setType(String type) {
         this.type = type;
     }
+    
+    public String getImagePath(){
+        return this.imagePath;
+    }
+    public void setImagePth(String imagePath){
+        this.imagePath = imagePath;
+    }
 }

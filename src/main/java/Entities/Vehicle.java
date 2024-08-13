@@ -1,7 +1,7 @@
 package Entities;
 
-
 public class Vehicle {
+
     private boolean registered;
     private int plate;
     private Person owner;
@@ -37,4 +37,17 @@ public class Vehicle {
         this.nextInLine = vehicle;
     }
 
+    public Vehicle getVehicleByPlate(int plate) {
+        Vehicle aux = this;
+
+        if (aux.getPlate() == plate) {
+            return aux;
+        } else {
+            while (aux.getNextInLine() != null) {
+                aux = this.getNextInLine();
+                aux.getVehicleByPlate(plate);
+            }
+        }return null;
+
+    }
 }
