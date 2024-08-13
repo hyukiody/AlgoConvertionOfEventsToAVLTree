@@ -6,11 +6,11 @@ public class Event {
 
     private String carPlate;
     private LocalDateTime horaEvento;
-    private Place eventPlace;
-    private Event nextEv;
-    private Event lastEv;
-
-    public Event(String carPlate, LocalDateTime horaEvento, Place eventPlace) {
+    private Location eventPlace;
+    private String imagemPath;
+    private Camera camera;
+    
+    public Event(String carPlate, LocalDateTime horaEvento, Location eventPlace) {
         this.carPlate = carPlate;
         this.horaEvento = horaEvento;
         this.eventPlace = eventPlace;

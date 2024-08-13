@@ -1,11 +1,13 @@
 package Entities;
 
-public class Vehicle {
 
+public class Vehicle {
+    private boolean registered;
     private int plate;
     private Person owner;
+    private Vehicle nextInLine;
 
-    public Vehicle(int plate, Employee owner) {
+    public Vehicle(int plate, Person owner) {
         this.plate = plate;
         this.owner = owner;
     }
@@ -21,7 +23,18 @@ public class Vehicle {
     public Person getOwner() {
         return this.owner;
     }
-    public void setOwner(Person owner){
-        this.owner = owner;}
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
+    }
+
+    public Vehicle getNextInLine() {
+        return this.nextInLine;
+
+    }
+
+    public void setNextInLine(Vehicle vehicle) {
+        this.nextInLine = vehicle;
+    }
 
 }

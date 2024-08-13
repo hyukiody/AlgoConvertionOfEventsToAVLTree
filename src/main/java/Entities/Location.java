@@ -1,11 +1,12 @@
 package Entities;
 
-public class Place {
-
+public class Location {
+    
+    
     private float x;
     private float y;
 
-    public Place(float x, float y) {
+    public Location(float x, float y) {
         this.x = x;
         this.y = y;
     }
