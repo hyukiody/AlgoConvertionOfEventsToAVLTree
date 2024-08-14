@@ -63,4 +63,9 @@ public abstract class Person {
     public void setNextPerson(Person nextPerson) {
         this.nextPerson = nextPerson;
     }
+
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', cpf='" + cpf + "', vehicle=" + vehicle + "}";
+    }
 }

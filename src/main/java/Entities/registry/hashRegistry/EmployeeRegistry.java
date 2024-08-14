@@ -1,23 +1,23 @@
-package Entities.registry;
+package Entities.registry.hashRegistry;
 
 import Entities.Employee;
 
 public class EmployeeRegistry {
 
-    private Employee primeiro; 
+    private Employee raiz;
 
     public EmployeeRegistry() {
     }
 
     public Employee getEmployeeRegistry() {
-        return this.primeiro;
+        return this.raiz;
     }
 
     public void addEmployeeToRegistry(Employee employee) {
-        if (this.primeiro == null) {
-            this.primeiro = employee;
+        if (this.raiz == null) {
+            this.raiz = employee;
         } else {
-            addEmployeeRecursively(this.primeiro, employee);
+            addEmployeeRecursively(this.raiz, employee);
         }
     }
 
@@ -30,7 +30,7 @@ public class EmployeeRegistry {
     }
 
     public void removeEmployeeFromRegistry(Employee employeeToRemove) {
-        this.primeiro = removeEmployeeRecursively(this.primeiro, employeeToRemove);
+        this.raiz = removeEmployeeRecursively(this.raiz, employeeToRemove);
     }
 
     private Employee removeEmployeeRecursively(Employee current, Employee employeeToRemove) {
@@ -47,7 +47,7 @@ public class EmployeeRegistry {
     }
 
     public Employee findEmployeeInRegistry(Employee employeeToFind) {
-        return findEmployeeRecursively(this.primeiro, employeeToFind);
+        return findEmployeeRecursively(this.raiz, employeeToFind);
     }
 
     private Employee findEmployeeRecursively(Employee current, Employee employeeToFind) {

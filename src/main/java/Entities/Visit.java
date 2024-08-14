@@ -12,7 +12,20 @@ public class Visit {
     private LocalDateTime startingTime;
     private LocalDateTime endingTime;
 
-    //construtor com verificação de visita em andamento
+    public Visit(
+            ArrayList<Visit> visitHistory,
+            ArrayList<Event> eventRoute,
+            Person visitor,
+            Vehicle visitorCar,
+            LocalDateTime startingTime) {
+        this.eventRoute = new ArrayList<Event>();
+        this.visitor = visitor;
+        this.visitorCar = visitorCar;
+        this.startingTime = startingTime;
+
+    }
+
+    //construtor com verificação de visita em aberto
     public Visit newVisitOrGetOngoingVisit(ArrayList<Visit> visitHistory, Event chegada, Person visitor, Vehicle visitorCar, LocalDateTime startingTime) {
         for (Visit visit : visitHistory) {
             if (visit.getVisitor() == visitor && visit.getEndingTime() == null) {
@@ -22,11 +35,13 @@ public class Visit {
             }
         }
 
-        this.eventRoute = new ArrayList<Event>;
-        this.eventRoute.add(chegada);
-        this.visitor = visitor;
-        this.visitorCar = visitorCar;
-        this.startingTime = startingTime;
+        ArrayList<Event> eventRoute = new ArrayList<Event>();
+        eventRoute.add(chegada);
+        Person newVisitor = visitor;
+        Vehicle newVisitorCar = visitorCar;
+        LocalDateTime newStartingTime = startingTime;
+
+        return new Visit(visitHistory,eventRoute, newVisitor, newVisitorCar, newStartingTime);
     }
 
 

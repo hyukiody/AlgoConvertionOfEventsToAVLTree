@@ -8,42 +8,31 @@ public class Camera {
 
     public Camera(int id, String type, String imagePath) {
         this.id = id;
-        this.type= type;
-        this.imagePath=imagePath;
+        this.type = type;
+        this.imagePath = imagePath;
     }
 
-    /**
-     * @return the ID
-     */
     public int getId() {
         return id;
     }
 
-    /**
-     * @param ID the ID to set
-     */
     public void setId(int id) {
         this.id = id;
     }
 
-    /**
-     * @return the type
-     */
     public String getType() {
         return type;
     }
 
-    /**
-     * @param type the type to set
-     */
     public void setType(String type) {
         this.type = type;
     }
-    
-    public String getImagePath(){
-        return this.imagePath;
+
+    public String getImagePath() {
+        return imagePath;
     }
-    public void setImagePth(String imagePath){
+
+    public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
 }

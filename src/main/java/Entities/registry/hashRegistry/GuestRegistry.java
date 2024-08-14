@@ -1,4 +1,4 @@
-package Entities.registry;
+package Entities.registry.hashRegistry;
 
 import Entities.Guest;
 

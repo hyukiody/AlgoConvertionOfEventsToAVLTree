@@ -7,9 +7,15 @@ public class Vehicle {
     private Person owner;
     private Vehicle nextInLine;
 
+    //contrutor padrao pra facilitar a semantica
     public Vehicle(String plate, Person owner) {
         this.plate = plate;
         this.owner = owner;
+    }//construtor vazio do veiculo raiz da lista encadeada
+    public Vehicle(){}
+
+    public Vehicle vehicleFromEvent(Event event){
+
     }
 
     public String getPlate() {

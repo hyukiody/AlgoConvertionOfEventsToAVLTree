@@ -49,6 +49,17 @@ public class Event {
     public void setCamera(Camera camera) {
         this.camera = camera;
     }
+    //to parse the event attributes from the prompt
+    //formato HH:mm dd/MM/yyyy , latitude, longitude,
+    //cameraID , carPlate
+    public Event parseEventFromString(String eventString){
+        String attributes[] = eventString.strip().split(",");
+        LocalDateTime horaEvento = LocalDateTime.parse(attributes[0]);
+        double
+        double
+        Camera camera =
+
+    }
 
     @Override
     public String toString() {
