@@ -1,6 +1,9 @@
 package Entities;
 
+import Entities.registry.LocationRegistry;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Event {
 
@@ -49,15 +52,21 @@ public class Event {
     public void setCamera(Camera camera) {
         this.camera = camera;
     }
+
     //to parse the event attributes from the prompt
     //formato HH:mm dd/MM/yyyy , latitude, longitude,
     //cameraID , carPlate
-    public Event parseEventFromString(String eventString){
+    public Event parseEventFromString(LocationRegistry locationsList, String eventString) {
         String attributes[] = eventString.strip().split(",");
         LocalDateTime horaEvento = LocalDateTime.parse(attributes[0]);
-        double
-        double
-        Camera camera =
+        double latitude = Double.parseDouble(attributes[1]);
+        double longitude = Double.parseDouble(attributes[2]);
+        int cameraId = Integer.parseInt(attributes[3]);
+        String carPlate = attributes[4];
+
+        Location location = locationsList.getLocationByCoordinates(latitude, longitude);
+        return new Event(carPlate, horaEvento, location, location.getCameraById(cameraId));
+
 
     }
 

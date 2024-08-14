@@ -13,19 +13,19 @@ public class Location {
         this.latitude = y;
     }
 
-    public double getX() {
+    public double getLongitude() {
         return this.longitude;
     }
 
-    public void setX(double x) {
+    public void setLongitude(double x) {
         this.longitude = x;
     }
 
-    public double getY() {
+    public double getLatitude() {
         return this.latitude;
     }
 
-    public void setY(double y) {
+    public void setLatitude(double y) {
         this.latitude = y;
     }
 
@@ -47,22 +47,26 @@ public class Location {
     }
 
     public void addCamera(Camera camera) {
-        for (Camera camera1 : cameras) {
-            if (camera1.getId() == camera.getId()) {
-                System.out.println("Camera de mesmo ID já encontrada!");
-                break;
-            }
+    // Check if a camera with the same ID already exists
+    for (Camera camera1 : cameras) {
+        if (camera1.getId() == camera.getId()) {
+            System.out.println("Camera de mesmo ID já encontrada!");
+            return;
         }
-        for (int i = 0; i <= this.cameras.length; i++) {
-            if (this.cameras[i] == null) {
-                this.cameras[i] = camera;
-            } else if (i == this.cameras.length) {
-                this.cameras = Arrays.copyOf(this.cameras, this.cameras.length + 1);
-                this.cameras[i] = camera;
-            }
-        }
-
     }
+
+    // Find an empty spot or resize the array if necessary
+    for (int i = 0; i < this.cameras.length; i++) {
+        if (this.cameras[i] == null) {
+            this.cameras[i] = camera;
+            return;
+        }
+    }
+
+    // Resize the array and add the new camera
+    this.cameras = Arrays.copyOf(this.cameras, this.cameras.length + 1);
+    this.cameras[this.cameras.length - 1] = camera;
+}
 
     public Camera[] getCameras() {
         return Arrays.copyOf(cameras, getCameraCount());

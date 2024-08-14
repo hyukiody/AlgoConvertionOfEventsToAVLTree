@@ -4,7 +4,6 @@ package Entities.registry.hashRegistry;
 
 import Entities.Person;
 
-import java.util.LinkedList;
 
 public class HashRegistry {
 

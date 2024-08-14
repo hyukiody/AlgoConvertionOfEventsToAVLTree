@@ -1,8 +1,16 @@
 package Entities.mainStructure;
 
 import Entities.Event;
+import Entities.registry.VehicleRegistry;
+import Entities.registry.VisitHistory;
+import Entities.registry.hashRegistry.HashRegistry;
+
 
 public class arvoreAvl {
+    private HashRegistry hashRegistry;
+    private VehicleRegistry vehicleList;
+    private VisitHistory visitHistory;
+
     private Nodo createNewNode(Event novoEvento) {
         Nodo novo = new Nodo();
         novo.setEvent(novoEvento);
@@ -11,6 +19,9 @@ public class arvoreAvl {
         novo.setEsq(null);
         novo.setDir(null);
         return novo;
+    }
+
+     public void newEventInTree(String novoEventoEmString) {
     }
 
     public Nodo inserir(Nodo raiz, Event novoEvento) {
@@ -36,7 +47,6 @@ public class arvoreAvl {
 
         return balance(raiz);
     }
-
 
 
     public Nodo balance(Nodo raiz) {
@@ -99,26 +109,26 @@ public class arvoreAvl {
         }
     }
 
-    public void displayInOrder(Nodo aux) {
+    public void exibirEmOrdem(Nodo aux) {
         if (aux != null) {
-            displayInOrder(aux.getEsq());
+            exibirEmOrdem(aux.getEsq());
             System.out.print(aux.getEvent() + "  ");
-            displayInOrder(aux.getDir());
+            exibirEmOrdem(aux.getDir());
         }
     }
 
-    public void displayPreOrder(Nodo aux) {
+    public void exibirPreOrdem(Nodo aux) {
         if (aux != null) {
             System.out.print(aux.getEvent() + ", ");
-            displayPreOrder(aux.getEsq());
-            displayPreOrder(aux.getDir());
+            exibirPreOrdem(aux.getEsq());
+            exibirPreOrdem(aux.getDir());
         }
     }
 
-    public void displayPostOrder(Nodo aux) {
+    public void exibirPosOrdem(Nodo aux) {
         if (aux != null) {
-            displayPostOrder(aux.getEsq());
-            displayPostOrder(aux.getDir());
+            exibirPosOrdem(aux.getEsq());
+            exibirPosOrdem(aux.getDir());
             System.out.print(aux.getEvent() + ", ");
         }
     }

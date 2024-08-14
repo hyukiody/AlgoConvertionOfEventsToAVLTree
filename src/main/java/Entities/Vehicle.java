@@ -2,7 +2,6 @@ package Entities;
 
 public class Vehicle {
 
-    private boolean registered;
     private String plate;
     private Person owner;
     private Vehicle nextInLine;
@@ -15,6 +14,7 @@ public class Vehicle {
     public Vehicle(){}
 
     public Vehicle vehicleFromEvent(Event event){
+        return new Vehicle(event.getCarPlate(),null);
 
     }
 
