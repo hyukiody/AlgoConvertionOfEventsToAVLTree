@@ -5,6 +5,7 @@ public abstract class Person {
     private String name;
     private String cpf;
     private Vehicle vehicle;
+    private Person nextPerson;
 
     public Person(String name, String cpf, Vehicle owned) {
         this.name = name;
@@ -53,6 +54,13 @@ public abstract class Person {
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
-    
-    
+
+
+    public Person getNextPerson() {
+        return nextPerson;
+    }
+
+    public void setNextPerson(Person nextPerson) {
+        this.nextPerson = nextPerson;
+    }
 }

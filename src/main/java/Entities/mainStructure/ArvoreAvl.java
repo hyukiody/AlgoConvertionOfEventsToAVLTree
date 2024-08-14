@@ -1,10 +1,32 @@
+//adaptado do material fornecido do professor
+
 package Entities.mainStructure;
 
 import Entities.Event;
+import Entities.Vehicle;
+import Entities.registry.HashRegistry;
+import Entities.registry.VehicleRegistry;
 
 public class ArvoreAvl {
+    private HashRegistry peopleHashRegistry;
+    private VehicleRegistry vehicleRegistry;
+    private Nodo raiz;
 
-    public Nodo raiz = null;
+    public ArvoreAvl(){
+        this.peopleHashRegistry=new HashRegistry(5);
+        this.vehicleRegistry=new VehicleRegistry();
+    }
+    public void progressiveSwipe(){
+        Nodo aux = this.raiz;
+
+        if(aux==null){
+        }else{
+            Event evento = aux.getEvent();
+            String plate = aux.getEvent().getCarPlate();
+            if()
+        }
+
+    }
 
     // parametro Nodo raiz pois o algoritmo de varredura funciona a partir da raiz da arvore
     public Nodo inserir(Nodo raiz, Event novoEvento) {
@@ -22,13 +44,13 @@ public class ArvoreAvl {
             raiz.setEsq(inserir(raiz.getEsq(), novoEvento));
             if (raiz.getEsq().getAltd() > raiz.getEsq().getAlte()) {
                 raiz.setAlte(raiz.getEsq().getAlte());
-            }else{
-                raiz.setAlte(raiz.getEsq().getAltd()+1);
+            } else {
+                raiz.setAlte(raiz.getEsq().getAltd() + 1);
             }
-            
+
         } else {
             raiz.setDir(inserir(raiz.getDir(), novoEvento));
-            if (raiz.getDir().getAltd() > raiz.getDir().getAlte()){
+            if (raiz.getDir().getAltd() > raiz.getDir().getAlte()) {
                 raiz.setAltd(raiz.getDir().getAltd() + 1);
             } else {
                 raiz.setAltd(raiz.getDir().getAlte() + 1);
@@ -39,7 +61,8 @@ public class ArvoreAvl {
 
         return raiz;
     }
-//novamente, o parametro da função é a raiz, pois o método recursivo possui varredura inerente
+
+    //novamente, o parametro da função é a raiz, pois o método recursivo possui varredura inerente
     public Nodo balance(Nodo raiz) {
         int d, df;
         d = raiz.getAltd() - raiz.getAlte();
@@ -48,7 +71,7 @@ public class ArvoreAvl {
             if (df >= 0) {
                 raiz = rotacao_esquerda(raiz);
             } else {
-                raiz.setDir(rotacao_direita(raiz.getDir())) ;
+                raiz.setDir(rotacao_direita(raiz.getDir()));
                 raiz = rotacao_esquerda(raiz);
             }
         } else if (d == -2) {
@@ -102,9 +125,9 @@ public class ArvoreAvl {
         }
 
         if (aux1.getDir().getAlte() > aux1.getDir().getAltd()) {
-            aux1.setAltd( aux1.getDir().getAlte() + 1);
+            aux1.setAltd(aux1.getDir().getAlte() + 1);
         } else {
-            aux1.setAltd(aux1.getDir().getAltd() + 1) ;
+            aux1.setAltd(aux1.getDir().getAltd() + 1);
         }
         return aux1;
     }
@@ -119,17 +142,17 @@ public class ArvoreAvl {
 
     public void exibirpreordem(Nodo aux) {
         if (aux != null) {
-            System.out.print(aux.num + ", ");
-            exibirpreordem(aux.esq);
-            exibirpreordem(aux.dir);
+            System.out.print(aux.getEvent() + ", ");
+            exibirpreordem(aux.getEsq());
+            exibirpreordem(aux.getDir());
         }
     }
 
     public void exibirposordem(Nodo aux) {
         if (aux != null) {
-            exibirposordem(aux.esq);
-            exibirposordem(aux.dir);
-            System.out.print(aux.num + ", ");
+            exibirposordem(aux.getEsq());
+            exibirposordem(aux.getDir());
+            System.out.print(aux.getEvent() + ", ");
         }
     }
 

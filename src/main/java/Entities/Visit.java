@@ -1,7 +1,5 @@
 package Entities;
 
-import Entities.Person;
-import Entities.Event;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -14,11 +12,23 @@ public class Visit {
     private LocalDateTime startingTime;
     private LocalDateTime endingTime;
 
-    public Visit(Person visitor, Vehicle visitorCar, LocalDateTime startingTime) {
+    //construtor com verificação de visita em andamento
+    public Visit newVisitOrGetOngoingVisit(ArrayList<Visit> visitHistory, Event chegada, Person visitor, Vehicle visitorCar, LocalDateTime startingTime) {
+        for (Visit visit : visitHistory) {
+            if (visit.getVisitor() == visitor && visit.getEndingTime() == null) {
+                return visit;
+
+
+            }
+        }
+
+        this.eventRoute = new ArrayList<Event>;
+        this.eventRoute.add(chegada);
         this.visitor = visitor;
         this.visitorCar = visitorCar;
         this.startingTime = startingTime;
     }
+
 
     public Person getVisitor() {
         return this.visitor;
@@ -39,13 +49,24 @@ public class Visit {
     public LocalDateTime getStartingTime() {
         return this.startingTime;
     }
-    public void setStartingTime(LocalDateTime startingTime){
+
+    public void setStartingTime(LocalDateTime startingTime) {
         this.startingTime = startingTime;
     }
-    public ArrayList<Event> getEventRoute(){
+
+    public LocalDateTime getEndingTime() {
+        return this.endingTime;
+    }
+
+    public void setEndingTime(LocalDateTime endingTime) {
+        this.endingTime = endingTime;
+    }
+
+    public ArrayList<Event> getEventRoute() {
         return this.eventRoute;
     }
-    public void addToRoute(Event event){
+
+    public void addToRoute(Event event) {
         this.eventRoute.add(event);
     }
 

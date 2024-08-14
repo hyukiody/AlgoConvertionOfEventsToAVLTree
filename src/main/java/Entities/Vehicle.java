@@ -3,20 +3,20 @@ package Entities;
 public class Vehicle {
 
     private boolean registered;
-    private int plate;
+    private String plate;
     private Person owner;
     private Vehicle nextInLine;
 
-    public Vehicle(int plate, Person owner) {
+    public Vehicle(String plate, Person owner) {
         this.plate = plate;
         this.owner = owner;
     }
 
-    public int getPlate() {
+    public String getPlate() {
         return this.plate;
     }
 
-    public void setPlate(int plate) {
+    public void setPlate(String plate) {
         this.plate = plate;
     }
 
@@ -37,7 +37,7 @@ public class Vehicle {
         this.nextInLine = vehicle;
     }
 
-    public Vehicle getVehicleByPlate(int plate) {
+    public Vehicle getVehicleByPlate(String plate) {
         Vehicle aux = this;
 
         if (aux.getPlate() == plate) {

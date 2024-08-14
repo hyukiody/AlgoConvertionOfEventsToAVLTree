@@ -1,3 +1,5 @@
+//modelando a partir das estruturas do professor Tiago
+
 package Entities.registry;
 
 import Entities.Person;
@@ -6,7 +8,7 @@ import java.util.LinkedList;
 public class HashRegistry {
 
     private int size;
-    private LinkedList<Person>[] peopleList;
+    private Person[] peopleList;
     private int qtdColisoes = 0;
 
     public HashRegistry(int size) {
