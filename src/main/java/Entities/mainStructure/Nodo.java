@@ -16,7 +16,7 @@ public class Nodo {
     }
 
     public int getNum() {
-        return num;
+        return this.num;
     }
 
     public void setNum(int num) {
@@ -24,7 +24,7 @@ public class Nodo {
     }
 
     public int getAltd() {
-        return altd;
+        return this.altd;
     }
 
     public void setAltd(int altd) {
@@ -32,7 +32,7 @@ public class Nodo {
     }
 
     public int getAlte() {
-        return alte;
+        return this.alte;
     }
 
     public void setAlte(int alte) {
@@ -40,7 +40,7 @@ public class Nodo {
     }
 
     public Nodo getDir() {
-        return dir;
+        return this.dir;
     }
 
     public void setDir(Nodo dir) {
@@ -48,7 +48,7 @@ public class Nodo {
     }
 
     public Nodo getEsq() {
-        return esq;
+        return this.esq;
     }
 
     public void setEsq(Nodo esq) {

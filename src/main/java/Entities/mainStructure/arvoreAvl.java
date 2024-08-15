@@ -1,15 +1,27 @@
 package Entities.mainStructure;
 
-import Entities.Event;
+import Entities.*;
+import Entities.registry.LocationRegistry;
 import Entities.registry.VehicleRegistry;
 import Entities.registry.VisitHistory;
 import Entities.registry.hashRegistry.HashRegistry;
 
+import java.util.ArrayList;
+
 
 public class arvoreAvl {
+    LocationRegistry locationRegistry1 = new LocationRegistry();
     private HashRegistry hashRegistry;
     private VehicleRegistry vehicleList;
     private VisitHistory visitHistory;
+    private LocationRegistry locationRegistry;
+
+    public arvoreAvl() {
+        this.hashRegistry = new HashRegistry(1);
+        this.vehicleList = new VehicleRegistry();
+        this.visitHistory = new VisitHistory();
+        this.locationRegistry = new LocationRegistry();
+    }
 
     private Nodo createNewNode(Event novoEvento) {
         Nodo novo = new Nodo();
@@ -21,7 +33,56 @@ public class arvoreAvl {
         return novo;
     }
 
-     public void newEventInTree(String novoEventoEmString) {
+    //função de varredura progressiva, avança pela arvore, realizando as verificações necessarias para tratamento dos registros
+    public void progressiveSwipe(ArrayList<Visit> visitList, Nodo raizAtual) {
+        //verifica se nodo atual pode ser tratado
+        if (raizAtual == null) {
+            return;
+        }
+        //verifica se o nodo ja consta na rota de alguma visita do registro
+        for (Visit visit : visitList) {
+            for (Event event : visit.getEventRoute()) {
+                if (raizAtual.getEvent() == event) {
+                    //se o evento do nodo ja houver sido tratado, avança para o proximo nodo usando recursividade
+                    progressiveSwipe(visitList, raizAtual.getEsq());
+                    progressiveSwipe(visitList, raizAtual.getDir());
+                }
+            }
+        }
+        //se o evento do nodo atual nao foi tratado, entao ele é verificado a seguir
+        if (raizAtual.getEvent().getCamera().getId() == 1 || raizAtual.getEvent().getCamera().getId() == 6) {
+            //se o id da camera que forneceu o evento for 1, entao o evento é de chegada e criara uma nova visita que ira se adcionar ao historicco de visitas
+            if (raizAtual.getEvent().getCamera().getId() == 1) {
+                //tratamento do evento para eventos de chegada
+                Event event = raizAtual.getEvent();
+
+                //procura veiculos na lista de registros
+                Vehicle vehicle = vehicleList.findVehicleByPlate(event.getCarPlate());
+                //se nao for registrado, cria um novo veiculo para ser registrado e implica em visitante
+                if (vehicle == null) {
+                    vehicle = new Vehicle();
+                }
+                Person person = hashRegistry.searchPersonByCarPlate(event.getCarPlate());
+                if (person == null) {
+                    person = new Guest().newGuest();
+                }
+
+                Visit newVisit = new Visit(visitList, )
+                for (Visit visit : visitList) {
+                }
+            } else {
+
+            }
+        } else if ()
+
+    }
+
+    //metodo de instancia da arvore pra receber a string e verificar o regitro de localidades
+    public void newEventInTree(LocationRegistry locationRegistry, String novoEventoEmString) {
+        Event novoEvento = new Event();
+        novoEvento.parseEventFromString(locationRegistry, novoEventoEmString);
+        Nodo novo = createNewNode(novoEvento);
+        inserir(novo, novoEvento);
     }
 
     public Nodo inserir(Nodo raiz, Event novoEvento) {

@@ -3,18 +3,19 @@
 package Entities.registry.hashRegistry;
 
 import Entities.Person;
+import Entities.Vehicle;
 
 
 public class HashRegistry {
 
     private int size;
-    private Person[] peopleLists;
+    private Person[] peopleTable;
     private int qtdColisoes = 0;
 
     public HashRegistry(int size) {
         System.out.println("Estrutura Hash tamanho " + size);
         this.setSize(size);
-        this.peopleLists = new Person[size];
+        this.peopleTable = new Person[size];
 
     }
 
@@ -26,12 +27,12 @@ public class HashRegistry {
     }
 
     private void addPersonRecursive(Person newPerson, int index) {
-        if (peopleLists[index] == null) {
-            peopleLists[index] = newPerson;
+        if (peopleTable[index] == null) {
+            peopleTable[index] = newPerson;
         } else {
             qtdColisoes++;
-            if (peopleLists[index].getNextPerson() == null) {
-                peopleLists[index].setNextPerson(newPerson);
+            if (peopleTable[index].getNextPerson() == null) {
+                peopleTable[index].setNextPerson(newPerson);
             } else {
                 addPersonRecursive(newPerson, index);
             }
@@ -42,7 +43,7 @@ public class HashRegistry {
 public Person searchPerson(Person searchingPerson) {
     int index = calculateIndex(searchingPerson.hashCode());
 
-    Person current = peopleLists[index];
+    Person current = peopleTable[index];
     while (current != null) {
         if (current.hashCode() == searchingPerson.hashCode()) {
             return current;
@@ -54,7 +55,7 @@ public Person searchPerson(Person searchingPerson) {
 
 // Busca recursivo pela pessoa pelo seu codigoHash na tabelaHash
 public Person searchPersonRecursive(Person searchingPerson, int index) {
-    return searchPersonRecursiveAux(searchingPerson, peopleLists[index]);
+    return searchPersonRecursiveAux(searchingPerson, peopleTable[index]);
 }
 
 private Person searchPersonRecursiveAux(Person searchingPerson, Person current) {
@@ -66,6 +67,22 @@ private Person searchPersonRecursiveAux(Person searchingPerson, Person current) 
     }
     return searchPersonRecursiveAux(searchingPerson, current.getNextPerson());
 }
+    public Person searchPersonByCarPlate(String searchPlate){
+        for (Person person : peopleTable) {
+            if(person.getVehicle().getPlate().equals(searchPlate)){
+                return person;
+            }
+        }
+        return null;
+    }
+    public Person searchPersonByVehicle(Vehicle searchVehicle){
+        for (Person person : peopleTable) {
+            if(person.getVehicle().equals(searchVehicle)){
+                return person;
+            }
+        }
+        return null;
+    }
 
     // função de calculo hash
     private int calculateIndex(int hashCode) {
@@ -83,7 +100,7 @@ private Person searchPersonRecursiveAux(Person searchingPerson, Person current) 
     public void printTable() {
     for (int i = 0; i < getSize(); i++) {
         System.out.println("Index: " + i);
-        Person current = peopleLists[i];
+        Person current = peopleTable[i];
         int count = 0;
 
         while (current != null) {

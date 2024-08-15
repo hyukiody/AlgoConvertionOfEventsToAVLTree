@@ -7,6 +7,7 @@ public class VehicleRegistry {
 
 
     public VehicleRegistry() {
+        this.raiz= new Vehicle();
     }
 
     public void addVehicleToRegistry(Vehicle vehicle) {

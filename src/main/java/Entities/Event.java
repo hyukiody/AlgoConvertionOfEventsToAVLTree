@@ -12,6 +12,7 @@ public class Event {
     private Location eventPlace;
     private Camera camera;
 
+    public Event(){}
 
     public Event(String carPlate, LocalDateTime horaEvento, Location eventPlace, Camera camera) {
         this.carPlate = carPlate;
@@ -64,6 +65,7 @@ public class Event {
         int cameraId = Integer.parseInt(attributes[3]);
         String carPlate = attributes[4];
 
+        //retorna a localidade cadastrada
         Location location = locationsList.getLocationByCoordinates(latitude, longitude);
         return new Event(carPlate, horaEvento, location, location.getCameraById(cameraId));
 

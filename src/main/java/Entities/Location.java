@@ -47,7 +47,7 @@ public class Location {
     }
 
     public void addCamera(Camera camera) {
-    // Check if a camera with the same ID already exists
+    // verifica se a camera ja existe na localidade
     for (Camera camera1 : cameras) {
         if (camera1.getId() == camera.getId()) {
             System.out.println("Camera de mesmo ID já encontrada!");
@@ -55,7 +55,7 @@ public class Location {
         }
     }
 
-    // Find an empty spot or resize the array if necessary
+    // encontr um espaço vazio no array ou o refaz com mais um espaço
     for (int i = 0; i < this.cameras.length; i++) {
         if (this.cameras[i] == null) {
             this.cameras[i] = camera;

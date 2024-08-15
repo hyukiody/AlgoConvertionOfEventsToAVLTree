@@ -3,7 +3,6 @@ package Entities;
 public class Employee extends Person {
 
     private String workplace;
-    private Employee nextInLine;
 
     public Employee(String name, String cpf, Vehicle owned) {
         super(name, cpf, owned);
@@ -18,19 +17,9 @@ public class Employee extends Person {
         this.workplace = workplace;
     }
 
-    public Employee getNextInLine() {
-        return nextInLine;
-    }
-
-    /**
-     * @param nextInLine the nextInLine to set
-     */
-    public void setNextInLine(Employee nextInLine) {
-        this.nextInLine = nextInLine;
-    }
-
+    //codigo retirado pois a função de varredura passou a ser propria da tabela Hash de pessoas
     //função de varredura a partir do primeiro da lista encadeada
-    public Employee getEmployeeByCpf(String cpf) {
+    /*public Employee getEmployeeByCpf(String cpf) {
         Employee aux = this;
 
         if (aux.getCpf().equals(cpf)) {
@@ -56,7 +45,7 @@ public class Employee extends Person {
                 aux.getEmployeeByVehicle(vehicle);
             }
             return null;
-        }
+        }*/
 
     }
 

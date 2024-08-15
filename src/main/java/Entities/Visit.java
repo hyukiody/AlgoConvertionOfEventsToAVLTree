@@ -12,16 +12,12 @@ public class Visit {
     private LocalDateTime startingTime;
     private LocalDateTime endingTime;
 
-    public Visit(
-            ArrayList<Visit> visitHistory,
-            ArrayList<Event> eventRoute,
-            Person visitor,
-            Vehicle visitorCar,
-            LocalDateTime startingTime) {
+    public Visit(ArrayList<Visit> visitHistory, Person visitor, Vehicle visitorCar, LocalDateTime startingTime) {
         this.eventRoute = new ArrayList<Event>();
         this.visitor = visitor;
         this.visitorCar = visitorCar;
         this.startingTime = startingTime;
+        visitHistory.add(this);
 
     }
 
@@ -41,7 +37,7 @@ public class Visit {
         Vehicle newVisitorCar = visitorCar;
         LocalDateTime newStartingTime = startingTime;
 
-        return new Visit(visitHistory,eventRoute, newVisitor, newVisitorCar, newStartingTime);
+        return new Visit(visitHistory, eventRoute, newVisitor, newVisitorCar, newStartingTime);
     }
 
 
