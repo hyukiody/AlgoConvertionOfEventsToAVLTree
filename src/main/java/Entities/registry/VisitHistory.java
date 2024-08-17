@@ -15,13 +15,15 @@ public class VisitHistory {
         this.visitHistory.add(newVisit);
     }
 
-    public ArrayList<Visit> getVisithistory(){
+    public ArrayList<Visit> getVisitHistory(){
         return this.visitHistory;
     }
 
+    //metodo de consulta do historico de visitas a partir da placa do carro detectada no evento
     public Visit getVisitByPlate(String eventPlate) {
         for (Visit visit : this.visitHistory) {
-            if (visit.getVehicle().getPlate().equals(eventPlate)) {
+            //verificação dupla que impede o retorno de uma visita ja encerrada
+            if (visit.getVehicle().getPlate().equals(eventPlate)&& visit.getEndingTime()==null) {
                 return visit;
             }
         }
