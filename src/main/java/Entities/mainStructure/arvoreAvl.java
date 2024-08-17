@@ -16,6 +16,7 @@ public class arvoreAvl {
     private VisitHistory visitHistory;
     private LocationRegistry locationRegistry;
 
+    //não seria necessário inserir as estruturas de armazenamento de objetos na classe da arvore, mas faremos assim para exemplificar uma implementação integrada
     public arvoreAvl() {
         this.hashRegistry = new HashRegistry(1);
         this.vehicleList = new VehicleRegistry();
@@ -34,43 +35,55 @@ public class arvoreAvl {
     }
 
     //função de varredura progressiva, avança pela arvore, realizando as verificações necessarias para tratamento dos registros
-    public void progressiveSwipe(ArrayList<Visit> visitList, Nodo raizAtual) {
+    public void progressiveSwipe(VehicleRegistry vehicleList, HashRegistry hashRegistry, ArrayList<Visit> visitList, Nodo raizAtual) {
         //verifica se nodo atual pode ser tratado
         if (raizAtual == null) {
             return;
         }
-        //verifica se o nodo ja consta na rota de alguma visita do registro
+        //verifica se o evento do nodo atual ja consta na rota de alguma visita do registro de visitas
         for (Visit visit : visitList) {
             for (Event event : visit.getEventRoute()) {
                 if (raizAtual.getEvent() == event) {
                     //se o evento do nodo ja houver sido tratado, avança para o proximo nodo usando recursividade
-                    progressiveSwipe(visitList, raizAtual.getEsq());
-                    progressiveSwipe(visitList, raizAtual.getDir());
+                    progressiveSwipe(vehicleList, hashRegistry, visitList, raizAtual.getEsq());
+                    progressiveSwipe(vehicleList, hashRegistry, visitList, raizAtual.getDir());
                 }
             }
         }
         //se o evento do nodo atual nao foi tratado, entao ele é verificado a seguir
         if (raizAtual.getEvent().getCamera().getId() == 1 || raizAtual.getEvent().getCamera().getId() == 6) {
-            //se o id da camera que forneceu o evento for 1, entao o evento é de chegada e criara uma nova visita que ira se adcionar ao historicco de visitas
+            //TRATAMENTO PARA EVENTO DA CAMERA DA ENTRADA>>se o id da camera que forneceu o evento for 1, entao o evento é de chegada e criara uma nova visita que ira se adcionar ao historicco de visitas
             if (raizAtual.getEvent().getCamera().getId() == 1) {
                 //tratamento do evento para eventos de chegada
                 Event event = raizAtual.getEvent();
 
                 //procura veiculos na lista de registros
-                Vehicle vehicle = vehicleList.findVehicleByPlate(event.getCarPlate());
+                Vehicle newVehicle = vehicleList.findVehicleByPlate(event.getCarPlate());
                 //se nao for registrado, cria um novo veiculo para ser registrado e implica em visitante
-                if (vehicle == null) {
-                    vehicle = new Vehicle();
+                if (newVehicle == null) {
+                    Guest newGuest = Guest.newGuest(null);
+                    newVehicle = new Vehicle(raizAtual.getEvent().getCarPlate(), newGuest);
+                    newGuest.setVehicle(newVehicle);
+                    //adiciona o novo veiculo no registro de veiculos (lista encadeada)
+                    vehicleList.addVehicleToRegistry(newVehicle);
+                    Visit newVisit = new Visit(visitList, newGuest, newVehicle, raizAtual.getEvent().getHoraEvento());
+                    //adiciona a instancia da visita ao registro de visitas (arrayList)
+                    visitList.add(newVisit);
+                    //adiciona a pessoa ao registro de pessoas, mesmo como visitante anonimo, deve estar la para ser referenciado caso visite novamente com seu veiculo, evitando que o algoritmo associe o mesmo veiculo a dois visitantes diferentes
+                    this.hashRegistry.addPerson(newGuest);
+                } else {
+                    //caso o veiculo seja encontrado na lista de veiculos, implica ou em um funcionario, ou em um visitante
+                    if (newVehicle.getOwner() instanceof Employee) {
+                        Visit newEmployeeVisit = new Visit(visitList, newVehicle.getOwner(), newVehicle, raizAtual.getEvent().getHoraEvento());
+                        visitList.add(newEmployeeVisit);
+                    } else if (newVehicle.getOwner() instanceof Guest) {
+                        Visit newGuestVisit = new Visit(visitList, newVehicle.getOwner(), newVehicle, raizAtual.getEvent().getHoraEvento());
+                        visitList.add(newGuestVisit);
+                    }
                 }
-                Person person = hashRegistry.searchPersonByCarPlate(event.getCarPlate());
-                if (person == null) {
-                    person = new Guest().newGuest();
-                }
+            //TRATAMENTO PARA EVENTO DA CAMERA DE SAIDA
+            } else if (raizAtual.getEvent().getCamera().getId() == 6) {
 
-                Visit newVisit = new Visit(visitList, )
-                for (Visit visit : visitList) {
-                }
-            } else {
 
             }
         } else if ()

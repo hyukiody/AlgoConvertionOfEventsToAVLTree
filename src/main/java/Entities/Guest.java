@@ -8,7 +8,7 @@ public class Guest extends Person {
         super(name, cpf, owned);
     }
 
-    public Guest newGuest(Vehicle newVehicle) {
+    public static Guest newGuest(Vehicle newVehicle) {
         String name = "Unknown ";
         String cpf = "Unknown";
 
@@ -17,7 +17,7 @@ public class Guest extends Person {
     }
 
     /**
-     * @return the nextInLine
+     * return the nextInLine
      */
     /*
     //função de varredura a partir do primeiro da lista encadeada
@@ -49,7 +49,6 @@ public class Guest extends Person {
         }
 
     }*/
-
     public void percorreRecursivo(Guest atual, Guest novo) {
     }
 

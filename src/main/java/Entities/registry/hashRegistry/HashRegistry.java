@@ -8,9 +8,9 @@ import Entities.Vehicle;
 
 public class HashRegistry {
 
-    private int size;
+    private final int qtdColisoes = 0;
     private Person[] peopleTable;
-    private int qtdColisoes = 0;
+    private int size;
 
     public HashRegistry(int size) {
         System.out.println("Estrutura Hash tamanho " + size);
@@ -19,65 +19,55 @@ public class HashRegistry {
 
     }
 
-    //metodo de inserir pessoa no registro, verifica se é funcionario ou visitante
-    //o objetivo de salvar os visitantes, é o de ter seu historico de visitas atraves de seu veiculo
+    public void setPeopleTable(Person[] peopleTable) {
+        this.peopleTable = peopleTable;
+    }
+
+    //metodo de calculo do
+    private int calculateIndex(int hashCode) {
+        return Math.abs(hashCode) % this.getSize();
+    }
+
+    public int getSize() {
+        return this.size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    //metodo de inserir pessoas no registro hash; se o indice estiver ocupado, armazena no proximo disponivel
+    //o objetivo de salvar os visitantes, é o de ter seu historico de visitas atraves de seu veiculo, sendo necessario a instancia de um visitante pois um veiculo implica em um motorista, e este num visitante
+
     public void addPerson(Person newPerson) {
-        int index = calculateIndex(newPerson.hashCode());
-        addPersonRecursive(newPerson, index);
+    int index = calculateIndex(newPerson.hashCode());
+    while (index < this.peopleTable.length && this.peopleTable[index] != null) {
+        index++;
     }
-
-    private void addPersonRecursive(Person newPerson, int index) {
-        if (peopleTable[index] == null) {
-            peopleTable[index] = newPerson;
-        } else {
-            qtdColisoes++;
-            if (peopleTable[index].getNextPerson() == null) {
-                peopleTable[index].setNextPerson(newPerson);
-            } else {
-                addPersonRecursive(newPerson, index);
-            }
+    if (index == this.peopleTable.length) {
+        Person[] newSizedTable = new Person[this.peopleTable.length * 2];
+        for (int i = 0; i < this.peopleTable.length; i++) {
+            newSizedTable[i] = this.peopleTable[i];
         }
+        this.peopleTable = newSizedTable;
+        index = this.peopleTable.length / 2; // Reset index to the first new slot
     }
-
-    //buca recursivo pela pessoa na tabela hash pelo seu codigoHash
-public Person searchPerson(Person searchingPerson) {
-    int index = calculateIndex(searchingPerson.hashCode());
-
-    Person current = peopleTable[index];
-    while (current != null) {
-        if (current.hashCode() == searchingPerson.hashCode()) {
-            return current;
-        }
-        current = current.getNextPerson();
-    }
-    return null; // Return null if not found
+    this.peopleTable[index] = newPerson;
 }
 
-// Busca recursivo pela pessoa pelo seu codigoHash na tabelaHash
-public Person searchPersonRecursive(Person searchingPerson, int index) {
-    return searchPersonRecursiveAux(searchingPerson, peopleTable[index]);
-}
 
-private Person searchPersonRecursiveAux(Person searchingPerson, Person current) {
-    if (current == null) {
-        return null; // Return null if not found
-    }
-    if (current.hashCode() == searchingPerson.hashCode()) {
-        return current;
-    }
-    return searchPersonRecursiveAux(searchingPerson, current.getNextPerson());
-}
-    public Person searchPersonByCarPlate(String searchPlate){
+    public Person searchPersonByCarPlate(String searchPlate) {
         for (Person person : peopleTable) {
-            if(person.getVehicle().getPlate().equals(searchPlate)){
+            if (person.getVehicle().getPlate().equals(searchPlate)) {
                 return person;
             }
         }
         return null;
     }
-    public Person searchPersonByVehicle(Vehicle searchVehicle){
+
+    public Person searchPersonByVehicle(Vehicle searchVehicle) {
         for (Person person : peopleTable) {
-            if(person.getVehicle().equals(searchVehicle)){
+            if (person.getVehicle().equals(searchVehicle)) {
                 return person;
             }
         }
@@ -85,33 +75,10 @@ private Person searchPersonRecursiveAux(Person searchingPerson, Person current) 
     }
 
     // função de calculo hash
-    private int calculateIndex(int hashCode) {
-        return Math.abs(hashCode) % getSize();
-    }
 
-    public int getSize() {
-        return size;
-    }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
+    //implementar função da tabela hash de
 
-    public void printTable() {
-    for (int i = 0; i < getSize(); i++) {
-        System.out.println("Index: " + i);
-        Person current = peopleTable[i];
-        int count = 0;
-
-        while (current != null) {
-            count++;
-            System.out.println("Person: " + current); // Assuming Person has a toString method
-            current = current.getNextPerson();
-        }
-
-        System.out.println("Number of elements: " + count);
-    }
-}
     public int getCollisionCount() {
         return qtdColisoes;
     }
