@@ -20,7 +20,7 @@ public class Visit {
         visitHistory.add(this);
 
     }
-
+    /*
     //construtor com verificação de visita em aberto
     public Visit newVisitOrGetOngoingVisit(ArrayList<Visit> visitHistory, Event chegada, Person visitor, Vehicle visitorCar, LocalDateTime startingTime) {
         for (Visit visit : visitHistory) {
@@ -38,7 +38,7 @@ public class Visit {
         LocalDateTime newStartingTime = startingTime;
 
         return new Visit(visitHistory, eventRoute, newVisitor, newVisitorCar, newStartingTime);
-    }
+    }*/
 
 
     public Person getVisitor() {

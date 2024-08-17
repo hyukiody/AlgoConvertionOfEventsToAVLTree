@@ -15,6 +15,10 @@ public class VisitHistory {
         this.visitHistory.add(newVisit);
     }
 
+    public ArrayList<Visit> getVisithistory(){
+        return this.visitHistory;
+    }
+
     public Visit getVisitByPlate(String eventPlate) {
         for (Visit visit : this.visitHistory) {
             if (visit.getVehicle().getPlate().equals(eventPlate)) {

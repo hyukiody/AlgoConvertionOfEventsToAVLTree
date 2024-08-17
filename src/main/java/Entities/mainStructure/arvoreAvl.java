@@ -35,13 +35,13 @@ public class arvoreAvl {
     }
 
     //função de varredura progressiva, avança pela arvore, realizando as verificações necessarias para tratamento dos registros
-    public void progressiveSwipe(VehicleRegistry vehicleList, HashRegistry hashRegistry, ArrayList<Visit> visitList, Nodo raizAtual) {
+    public void progressiveSwipe(VehicleRegistry vehicleList, HashRegistry hashRegistry, VisitHistory visitList, Nodo raizAtual) {
         //verifica se nodo atual pode ser tratado
         if (raizAtual == null) {
             return;
         }
         //verifica se o evento do nodo atual ja consta na rota de alguma visita do registro de visitas
-        for (Visit visit : visitList) {
+        for (Visit visit : visitList.getVisithistory()) {
             for (Event event : visit.getEventRoute()) {
                 if (raizAtual.getEvent() == event) {
                     //se o evento do nodo ja houver sido tratado, avança para o proximo nodo usando recursividade
@@ -66,27 +66,40 @@ public class arvoreAvl {
                     newGuest.setVehicle(newVehicle);
                     //adiciona o novo veiculo no registro de veiculos (lista encadeada)
                     vehicleList.addVehicleToRegistry(newVehicle);
-                    Visit newVisit = new Visit(visitList, newGuest, newVehicle, raizAtual.getEvent().getHoraEvento());
+                    Visit newVisit = new Visit(visitList.getVisithistory(), newGuest, newVehicle, raizAtual.getEvent().getHoraEvento());
                     //adiciona a instancia da visita ao registro de visitas (arrayList)
-                    visitList.add(newVisit);
+                    visitList.addToHistory(newVisit);
                     //adiciona a pessoa ao registro de pessoas, mesmo como visitante anonimo, deve estar la para ser referenciado caso visite novamente com seu veiculo, evitando que o algoritmo associe o mesmo veiculo a dois visitantes diferentes
                     this.hashRegistry.addPerson(newGuest);
                 } else {
                     //caso o veiculo seja encontrado na lista de veiculos, implica ou em um funcionario, ou em um visitante
                     if (newVehicle.getOwner() instanceof Employee) {
-                        Visit newEmployeeVisit = new Visit(visitList, newVehicle.getOwner(), newVehicle, raizAtual.getEvent().getHoraEvento());
-                        visitList.add(newEmployeeVisit);
+                        Visit newEmployeeVisit = new Visit(visitList.getVisithistory(), newVehicle.getOwner(), newVehicle, raizAtual.getEvent().getHoraEvento());
+                        //adiciona a visita ao historico de visitas
+                        visitList.addToHistory(newEmployeeVisit);
                     } else if (newVehicle.getOwner() instanceof Guest) {
-                        Visit newGuestVisit = new Visit(visitList, newVehicle.getOwner(), newVehicle, raizAtual.getEvent().getHoraEvento());
-                        visitList.add(newGuestVisit);
+                        Visit newGuestVisit = new Visit(visitList.getVisithistory(), newVehicle.getOwner(), newVehicle, raizAtual.getEvent().getHoraEvento());
+                        visitList.addToHistory(newGuestVisit);
                     }
                 }
-            //TRATAMENTO PARA EVENTO DA CAMERA DE SAIDA
+                //TRATAMENTO PARA EVENTO DA CAMERA DE SAIDA
             } else if (raizAtual.getEvent().getCamera().getId() == 6) {
-
+                Event event = raizAtual.getEvent();
+                Visit visitToBeClosed = visitList.getVisitByPlate(raizAtual.getEvent().getCarPlate());
+                visitToBeClosed.addToRoute(raizAtual.getEvent());
 
             }
-        } else if ()
+            //TRATAMENTO PROS EVENTOS DAS DEMAIS CAMERAS
+        } else if (!(raizAtual.getEvent().getCamera().getId() == 1 || raizAtual.getEvent().getCamera().getId() == 6)) {
+            Event event = raizAtual.getEvent();
+            Visit visitToBeAddedTo= visitList.getVisitByPlate(raizAtual.getEvent().getCarPlate());
+            visitToBeAddedTo.addToRoute(raizAtual.getEvent());
+        }
+        while(raizAtual.getEsq()!=null || raizAtual.getDir()!=null){
+            progressiveSwipe(vehicleList,hashRegistry,visitList,raizAtual.getEsq());
+            progressiveSwipe(vehicleList,hashRegistry,visitList,raizAtual.getDir());
+
+        }
 
     }
 
