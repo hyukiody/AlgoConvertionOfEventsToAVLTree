@@ -17,6 +17,7 @@ public class arvoreAvl {
     private LocationRegistry locationRegistry;
 
     //não seria necessário inserir as estruturas de armazenamento de objetos na classe da arvore, mas faremos assim para exemplificar uma implementação integrada
+    // poderiamos por exemplo, definir da mesma forma o uso destas nos parametros da arvore, mas instanciá-las na main e, na main, inserí-las como parametros da arvore, mas daria na mesma...
     public arvoreAvl() {
         this.hashRegistry = new HashRegistry(1);
         this.vehicleList = new VehicleRegistry();
