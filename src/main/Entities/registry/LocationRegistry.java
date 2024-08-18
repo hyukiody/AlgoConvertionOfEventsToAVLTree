@@ -9,31 +9,29 @@ public class LocationRegistry {
 
     private ArrayList<Location> locationsList;
 
-    //construtor de teste
+    // Construtor de teste
     public LocationRegistry() {
-        this.locationsList = new ArrayList<Location>();
+        this.locationsList = new ArrayList<>();
         Camera camera1 = new Camera(1, "entrada", "entrada.jpg");
         Camera camera2 = new Camera(2, "entrada", "entrada2.jpg");
         Camera camera3 = new Camera(3, "entrada", "entrada3.jpg");
         Camera camera4 = new Camera(4, "saida", "saida4.jpg");
         Camera camera5 = new Camera(5, "saida", "saida5.jpg");
-        Camera camera6 = new Camera(5, "saida", "saida6.jpg");
+        Camera camera6 = new Camera(6, "saida", "saida6.jpg");
 
-        Location localEntrada = new Location(1,1);
+        Location localEntrada = new Location(1, 1);
         localEntrada.addCamera(camera1);
         localEntrada.addCamera(camera6);
-        Location localMeio = new Location(2,2);
+        Location localMeio = new Location(2, 2);
         localMeio.addCamera(camera2);
         localMeio.addCamera(camera5);
-        Location localFim = new Location(3,3);
+        Location localFim = new Location(3, 3);
         localFim.addCamera(camera3);
         localFim.addCamera(camera4);
-        locationsList.add(localEntrada);
-        locationsList.add(localMeio);
-        locationsList.add(localFim);
 
-
-
+        this.locationsList.add(localEntrada);
+        this.locationsList.add(localMeio);
+        this.locationsList.add(localFim);
     }
 
     public ArrayList<Location> getLocationsList() {
@@ -47,6 +45,10 @@ public class LocationRegistry {
             }
         }
         return null;
+    }
 
+    // Método para adicionar uma Location à lista
+    public void addLocation(Location location) {
+        this.locationsList.add(location);
     }
 }

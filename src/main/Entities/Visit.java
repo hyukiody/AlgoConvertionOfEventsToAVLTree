@@ -8,39 +8,24 @@ public class Visit {
     private ArrayList<Event> eventRoute;
     private Person visitor;
     private Vehicle visitorCar;
-    private long visitDuration;
     private LocalDateTime startingTime;
     private LocalDateTime endingTime;
 
-    public Visit(ArrayList<Visit> visitHistory, Person visitor, Vehicle visitorCar, LocalDateTime startingTime) {
+    // Construtor principal
+    public Visit(Person visitor, Vehicle visitorCar, LocalDateTime startingTime) {
         this.eventRoute = new ArrayList<Event>();
         this.visitor = visitor;
         this.visitorCar = visitorCar;
         this.startingTime = startingTime;
-        visitHistory.add(this);
-
+        this.endingTime = null; // Inicia sem hora de término
     }
-    /*
-    //construtor com verificação de visita em aberto
-    public Visit newVisitOrGetOngoingVisit(ArrayList<Visit> visitHistory, Event chegada, Person visitor, Vehicle visitorCar, LocalDateTime startingTime) {
-        for (Visit visit : visitHistory) {
-            if (visit.getVisitor() == visitor && visit.getEndingTime() == null) {
-                return visit;
 
+    // Adiciona um evento à rota
+    public void addToRoute(Event event) {
+        this.eventRoute.add(event);
+    }
 
-            }
-        }
-
-        ArrayList<Event> eventRoute = new ArrayList<Event>();
-        eventRoute.add(chegada);
-        Person newVisitor = visitor;
-        Vehicle newVisitorCar = visitorCar;
-        LocalDateTime newStartingTime = startingTime;
-
-        return new Visit(visitHistory, eventRoute, newVisitor, newVisitorCar, newStartingTime);
-    }*/
-
-
+    // Getters e Setters
     public Person getVisitor() {
         return this.visitor;
     }
@@ -77,8 +62,21 @@ public class Visit {
         return this.eventRoute;
     }
 
-    public void addToRoute(Event event) {
-        this.eventRoute.add(event);
+    public void setEventRoute(ArrayList<Event> eventRoute) {
+        this.eventRoute = eventRoute;
     }
 
+    // Método para verificar se há uma visita em aberto
+    public static Visit newVisitOrGetOngoingVisit(ArrayList<Visit> visitHistory, Event chegada, Person visitor, Vehicle visitorCar, LocalDateTime startingTime) {
+        for (Visit visit : visitHistory) {
+            if (visit.getVisitor() == visitor && visit.getEndingTime() == null) {
+                return visit;
+            }
+        }
+
+        Visit newVisit = new Visit(visitor, visitorCar, startingTime);
+        newVisit.addToRoute(chegada);
+        visitHistory.add(newVisit);
+        return newVisit;
+    }
 }
