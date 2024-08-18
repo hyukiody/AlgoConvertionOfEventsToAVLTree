@@ -1,5 +1,6 @@
 package Entities;
 
+import Entities.Vehicle;
 public abstract class Person {
 
     private String name;

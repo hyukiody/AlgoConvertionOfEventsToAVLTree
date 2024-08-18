@@ -3,11 +3,11 @@ package Entities;
 public class Vehicle {
 
     private String plate;
-    private Person owner;
+    private String owner;
     private Vehicle nextInLine;
 
     //contrutor padrao pra facilitar a semantica
-    public Vehicle(String plate, Person owner) {
+    public Vehicle(String plate, String owner) {
         this.plate = plate;
         this.owner = owner;
     }//construtor vazio do veiculo raiz da lista encadeada
@@ -26,11 +26,11 @@ public class Vehicle {
         this.plate = plate;
     }
 
-    public Person getOwner() {
+    public String getOwner() {
         return this.owner;
     }
 
-    public void setOwner(Person owner) {
+    public void setOwner(String owner) {
         this.owner = owner;
     }
 

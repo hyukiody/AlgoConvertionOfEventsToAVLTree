@@ -1,4 +1,4 @@
-package Entities.mainStructure;
+package Main.Entities.mainStructure;
 
 import Entities.Event;
 

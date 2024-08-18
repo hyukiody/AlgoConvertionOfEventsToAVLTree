@@ -1,6 +1,6 @@
 package Entities.registry.hashRegistry;
 
-import Entities.Employee;
+import Entities.Employee; 
 
 public class EmployeeRegistry {
 

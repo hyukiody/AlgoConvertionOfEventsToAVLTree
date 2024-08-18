@@ -1,16 +1,17 @@
 package Entities;
 
-import java.util.Arrays;
+import java.util.ArrayList; // Importa ArrayList
 
 public class Location {
 
-    private Camera[] cameras;
+    private ArrayList<Camera> cameras; // Usa ArrayList para armazenar câmeras
     private double longitude;
     private double latitude;
 
-    public Location(float x, float y) {
+    public Location(double x, double y) {
         this.longitude = x;
         this.latitude = y;
+        this.cameras = new ArrayList<>(); // Inicializa a lista de câmeras
     }
 
     public double getLongitude() {
@@ -30,11 +31,7 @@ public class Location {
     }
 
     public int getCameraCount() {
-        int counter = 0;
-        for (Camera camera : this.cameras) {
-            counter++;
-        }
-        return counter;
+        return this.cameras.size(); // Usa o tamanho do ArrayList
     }
 
     public Camera getCameraById(int id) {
@@ -47,29 +44,25 @@ public class Location {
     }
 
     public void addCamera(Camera camera) {
-    // verifica se a camera ja existe na localidade
-    for (Camera camera1 : cameras) {
-        if (camera1.getId() == camera.getId()) {
-            System.out.println("Camera de mesmo ID já encontrada!");
+        if (camera == null) {
+            System.out.println("Camera é nula!");
             return;
         }
-    }
 
-    // encontr um espaço vazio no array ou o refaz com mais um espaço
-    for (int i = 0; i < this.cameras.length; i++) {
-        if (this.cameras[i] == null) {
-            this.cameras[i] = camera;
-            return;
+        // Verifica se a câmera já existe
+        for (Camera camera1 : cameras) {
+            if (camera1.getId() == camera.getId()) {
+                System.out.println("Camera de mesmo ID já encontrada!");
+                return;
+            }
         }
+
+        // Adiciona a nova câmera
+        this.cameras.add(camera);
     }
 
-    // Resize the array and add the new camera
-    this.cameras = Arrays.copyOf(this.cameras, this.cameras.length + 1);
-    this.cameras[this.cameras.length - 1] = camera;
-}
-
-    public Camera[] getCameras() {
-        return Arrays.copyOf(cameras, getCameraCount());
+    public ArrayList<Camera> getCameras() {
+        return new ArrayList<>(cameras); // Retorna uma cópia da lista de câmeras
     }
 
     public String LocationToString() {
