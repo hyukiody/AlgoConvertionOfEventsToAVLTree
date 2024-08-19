@@ -12,7 +12,6 @@ public class Location {
         this.longitude = x;
         this.latitude = y;
         this.cameras = new Camera[0];
-        System.out.println("Novo Local + latitude: " + this.latitude + "  longitude: " + this.longitude);
     }
 
     public double getLongitude() {

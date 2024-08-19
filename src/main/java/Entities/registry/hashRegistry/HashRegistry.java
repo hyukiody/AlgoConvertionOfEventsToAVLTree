@@ -46,10 +46,12 @@ public class HashRegistry {
         }
         if (index == this.peopleTable.length) {
             Person[] newSizedTable = new Person[this.peopleTable.length * 2];
+            System.out.println("Registro Hash lotado; \n    Dobrando tamanho do registro...");
             for (int i = 0; i < this.peopleTable.length; i++) {
                 newSizedTable[i] = this.peopleTable[i];
             }
-            this.peopleTable = newSizedTable;
+            setPeopleTable(newSizedTable);
+            setSize(newSizedTable.length);
             index = this.peopleTable.length / 2; // Reset index to the first new slot
         }
         this.peopleTable[index] = newPerson;
@@ -80,7 +82,7 @@ public class HashRegistry {
         body.append("HashRegistry:\n");
         body.append("    size=").append(size);
         body.append("\n    qtdColisoes=").append(qtdColisoes);
-        body.append("\n    peopleTable=\n");
+        body.append("\n    PeopleTable:\n");
         for (Person person : peopleTable) {
             if (person != null) {
                 body.append(person.toString()).append(", \n");

@@ -3,8 +3,6 @@ package Main;
 import Entities.*;
 import Entities.mainStructure.AvlTree;
 import Entities.registry.LocationRegistry;
-//import Entities.registry.hashRegistry.EmployeeRegistry;
-//import Entities.registry.hashRegistry.GuestRegistry;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -114,6 +112,7 @@ public class main {
 
 
         novaArvore.newEventInTree(newInput1);
+
         novaArvore.newEventInTree(newInput12);
         novaArvore.newEventInTree(newInput13);
         novaArvore.newEventInTree(newInput14);
@@ -136,6 +135,7 @@ public class main {
 
 
         novaArvore.progressiveSwipe(novaArvore.getLocationRegistry(), novaArvore.getVehicleList(), novaArvore.getHashRegistry(), novaArvore.getVisitHistory(), novaArvore.getRaiz());
+
         novaArvore.exibirEmOrdem(novaArvore.getRaiz());
 
 

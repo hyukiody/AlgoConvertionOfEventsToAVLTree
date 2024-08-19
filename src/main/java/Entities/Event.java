@@ -12,7 +12,13 @@ public class Event {
     private Location eventPlace;
     private Camera camera;
 
-    public Event(){}
+    // Placeholder constructor
+public Event() {
+    this.carPlate = "UNKNOWN";
+    this.horaEvento = LocalDateTime.parse("2012-01-01T00:00:00");
+    this.eventPlace = new Location(0, 0);
+    this.camera = new Camera(0, "none", "none");
+}
 
     public Event(String carPlate, LocalDateTime horaEvento, Location eventPlace, Camera camera) {
         this.carPlate = carPlate;
@@ -62,16 +68,22 @@ public class Event {
             if (eventString == null || eventString.isEmpty()) {
                 throw new IllegalArgumentException("Event string cannot be null or empty");
             }
-            String[] attributes = eventString.strip().split(",");
-            LocalDateTime horaEvento = LocalDateTime.parse(attributes[0]);
-            double latitude = Double.parseDouble(attributes[1]);
-            double longitude = Double.parseDouble(attributes[2]);
-            int cameraId = Integer.parseInt(attributes[3]);
-            String carPlate = attributes[4];
+            {
+                String[] attributes = eventString.strip().split(",");
+                if (attributes.length==5) {
+                    LocalDateTime horaEvento = LocalDateTime.parse(attributes[0]);
+                    double latitude = Double.parseDouble(attributes[1]);
+                    double longitude = Double.parseDouble(attributes[2]);
+                    int cameraId = Integer.parseInt(attributes[3]);
+                    String carPlate = attributes[4];
 
-            // retorna a localidade cadastrada
-            Location location = locationsList.getLocationByCoordinates(latitude, longitude);
-            return new Event(carPlate, horaEvento, location, location.getCameraById(cameraId));
+                    // retorna a localidade cadastrada
+                    Location location = locationsList.getLocationByCoordinates(latitude, longitude);
+                    return new Event(carPlate, horaEvento, location, location.getCameraById(cameraId));
+                }else{
+                    throw new IllegalArgumentException("String is not well formatted");
+                }
+            }
         } catch (IllegalArgumentException e) {
             System.err.println("IllegalArgumentException caught: " + e.getMessage());
             e.printStackTrace();
@@ -81,9 +93,10 @@ public class Event {
         }
         return null;
     }
+
     @Override
     public String toString() {
-        String body = "Detection of: \n" + this.carPlate + "; at " + this.eventPlace + "; \n Camera ID: " + this.camera.getId() + " Time: " + this.horaEvento + "\n";
+        String body = "Detection of: Plate:   " + this.carPlate + "; at " + this.eventPlace + "; \n Camera ID: " + this.camera.getId() + " Time: " + this.horaEvento + "\n";
         return body;
     }
 

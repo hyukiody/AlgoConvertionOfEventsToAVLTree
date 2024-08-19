@@ -7,8 +7,8 @@ public class Nodo {
     private int num, altd, alte;
     private Nodo dir, esq;
 
-    public Nodo() {
-        this.event = new Event();
+    public Nodo(Event givenEvent) {
+        this.event = givenEvent;
     }
 
     public Event getEvent() {
