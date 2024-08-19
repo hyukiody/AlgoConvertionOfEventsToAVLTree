@@ -10,12 +10,20 @@ public class VehicleRegistry {
         this.raiz = new Vehicle();
     }
 
+    public void printVehiclesInList(){
+        Vehicle iterate=this.raiz;
+        while(iterate !=null){
+            System.out.println(iterate);
+            iterate=iterate.getNextInLine();
+        }
+    }
     //recursive method to add a vehicle at the end of the linked list
     public void addVehicleToRegistry(Vehicle vehicle) {
-        while (this.raiz.getNextInLine() != null) {
-            addVehicleToRegistry(this.raiz.getNextInLine());
+        Vehicle iterate=this.getRaiz();
+        while (iterate.getNextInLine() != null) {
+            iterate=(iterate.getNextInLine());
         }
-        this.raiz.setNextInLine(vehicle);
+        iterate.setNextInLine(vehicle);
     }
 
     public Vehicle findVehicleByPlate(String plate) {

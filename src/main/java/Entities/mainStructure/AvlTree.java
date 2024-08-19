@@ -58,6 +58,10 @@ public class AvlTree {
         return this.locationRegistry;
     }
 
+    public VehicleRegistry getVehicleRegistry() {
+        return this.vehicleList;
+    }
+
     //função de varredura progressiva, avança pela arvore, realizando as verificações necessarias para tratamento dos registros
     public void varredura(LocationRegistry locationRegistry, VehicleRegistry vehicleRegistry, HashRegistry hashRegistry, VisitHistory visitHistory, Nodo raizAtual) {
         swipeCounter++;
@@ -121,7 +125,7 @@ public class AvlTree {
             if (raizAtual.getDir() != null) {
                 varredura(locationRegistry, vehicleRegistry, hashRegistry, visitHistory, raizAtual.getDir());
             }
-            swipeCounter=0;
+            swipeCounter = 0;
         } catch (NullPointerException e) {
             System.err.println("NullPointerException caught in varredura: " + e.getMessage());
         } catch (IllegalArgumentException e) {
@@ -135,14 +139,15 @@ public class AvlTree {
     }
 
     //metodo de instancia da arvore pra receber a string e verificar o regitro de localidades, void pois ja adiciona o novo nodo criado a partir do evento criado da string inserida
-    public void newEventInTree(String novoEventoEmString) {
+    public Nodo newEventInTree(String novoEventoEmString) {
         try {
             //um novo evento na árvore implica em possíveis novas visitas e novas pessoas (novos visitantes) no registro hash
             //então faz sentido que o registro de visitas seja iterado em conjunto na ordem: parse string >> new evento >> new nodo >> place nodo >> arvore
 
             Event novoEvento = new Event();
             novoEvento = novoEvento.parseEventFromString(this.locationRegistry, novoEventoEmString);
-            inserirNaArvore(this.getRaiz(), novoEvento);
+            setRaiz(inserirNaArvore(this.getRaiz(), novoEvento));
+
             System.out.println("Novo nodo inserido na árvore:  \n" + novoEvento);
         } catch (NullPointerException e) {
             System.err.println("NullPointerException caught: " + e.getMessage());
@@ -151,13 +156,14 @@ public class AvlTree {
         } catch (Exception e) {
             System.err.println("Exception caught: " + e.getMessage());
         }
+        return this.raiz;
     }
 
     //
     public Nodo inserirNaArvore(Nodo raiz, Event novoEvento) {
         // no caso, o parametro raiz é a raiz da árvore
         try {
-            
+
             if (raiz == null) {
                 System.out.println("nó vazio detectado; inserindo novo nodo.");
                 return createNewNode(novoEvento);
