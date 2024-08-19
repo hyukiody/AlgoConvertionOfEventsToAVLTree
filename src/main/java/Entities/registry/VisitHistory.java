@@ -8,7 +8,7 @@ public class VisitHistory {
     public ArrayList<Visit> visitHistory;
 
     public VisitHistory() {
-        this.visitHistory = new ArrayList<Visit>();
+        this.visitHistory = new ArrayList<>();
     }
 
     public void addToHistory(Visit newVisit) {

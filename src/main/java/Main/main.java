@@ -138,6 +138,9 @@ public class main {
 
         novaArvore.exibirEmOrdem(novaArvore.getRaiz());
 
+        for(Visit visit : novaArvore.getVisitHistory().getVisitHistory()){
+            System.out.println(visit.getVisitor().getName());
+        }
 
     }
 }

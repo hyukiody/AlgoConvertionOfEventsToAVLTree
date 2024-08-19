@@ -6,15 +6,14 @@ import Entities.registry.VehicleRegistry;
 import Entities.registry.VisitHistory;
 import Entities.registry.hashRegistry.HashRegistry;
 
-
 public class AvlTree {
+
     private HashRegistry hashRegistry;
     private VehicleRegistry vehicleList;
     private VisitHistory visitHistory;
     private LocationRegistry locationRegistry;
     public Nodo raiz;
     private int swipeCounter = 0;
-
 
     //não seria necessário inserir as estruturas de armazenamento de objetos na classe da arvore, mas faremos assim para exemplificar uma implementação integrada
     // poderiamos por exemplo, definir da mesma forma o uso destas nos parametros da arvore, mas instanciá-las na main e, na main, inserí-las como parametros da arvore, mas daria na mesma...
@@ -34,8 +33,9 @@ public class AvlTree {
         novoNodo.setDir(null);
         return novoNodo;
     }
-    public void setRaiz(Nodo novoNodo){
-        this.raiz=novoNodo;
+
+    public void setRaiz(Nodo novoNodo) {
+        this.raiz = novoNodo;
     }
 
     public Nodo getRaiz() {
@@ -57,7 +57,6 @@ public class AvlTree {
     public LocationRegistry getLocationRegistry() {
         return this.locationRegistry;
     }
-
 
     //função de varredura progressiva, avança pela arvore, realizando as verificações necessarias para tratamento dos registros
     public void progressiveSwipe(LocationRegistry locationRegistry, VehicleRegistry vehicleRegistry, HashRegistry hashRegistry, VisitHistory visitHistory, Nodo raizAtual) {
@@ -121,14 +120,12 @@ public class AvlTree {
                 progressiveSwipe(locationRegistry, vehicleRegistry, hashRegistry, visitHistory, raizAtual.getDir());
             }
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
     public int getSwipeCounter() {
         return swipeCounter;
     }
-
 
     //metodo de instancia da arvore pra receber a string e verificar o regitro de localidades, void pois ja adiciona o novo nodo criado a partir do evento criado da string inserida
     public void newEventInTree(String novoEventoEmString) {
@@ -140,62 +137,45 @@ public class AvlTree {
             novoEvento = novoEvento.parseEventFromString(this.locationRegistry, novoEventoEmString);
             inserirNaArvore(this.getRaiz(), novoEvento);
             System.out.println("Novo nodo inserido na árvore:  \n" + novoEvento);
-        }
-
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             System.err.println("NullPointerException caught: " + e.getMessage());
-            e.printStackTrace();
         } catch (IllegalArgumentException e) {
             System.err.println("IllegalArgumentException caught: " + e.getMessage());
-            e.printStackTrace();
         } catch (Exception e) {
             System.err.println("Exception caught: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
     //
-    public void inserirNaArvore(Nodo raiz, Event novoEvento) {
+    public Nodo inserirNaArvore(Nodo raiz, Event novoEvento) {
         // no caso, o parametro raiz é a raiz da árvore
         try {
 
             if (raiz == null) {
                 System.out.println("nó vazio detectado; inserindo novo nodo.");
-                raiz = createNewNode(novoEvento);
-                System.out.println("verificando..." + raiz);
-            } else {
-                if (novoEvento.getHoraEvento().isBefore(raiz.getEvent().getHoraEvento())) {
-                    inserirNaArvore(raiz.getEsq(), novoEvento);
-                    if (raiz.getEsq().getAlte() > raiz.getEsq().getAltd()) {
-                        raiz.setAlte(raiz.getEsq().getAlte() + 1);
-                    } else {
-                        raiz.setAlte(raiz.getEsq().getAltd() + 1);
-                    }
-                } else {
-                    inserirNaArvore(raiz.getDir(), novoEvento);
-                    if (raiz.getDir().getAlte() > raiz.getDir().getAltd()) {
-                        raiz.setAltd(raiz.getDir().getAlte() + 1);
-                    } else {
-                        raiz.setAltd(raiz.getDir().getAltd() + 1);
-                    }
-                }
+                return createNewNode(novoEvento);
             }
 
-            balance(raiz);
+            if (novoEvento.getHoraEvento().isBefore(raiz.getEvent().getHoraEvento())) {
+                raiz.setEsq(inserirNaArvore(raiz.getEsq(), novoEvento));
+                raiz.setAlte(Math.max(raiz.getEsq().getAlte(), raiz.getEsq().getAltd()) + 1);
+            } else {
+                raiz.setDir(inserirNaArvore(raiz.getDir(), novoEvento));
+                raiz.setAltd(Math.max(raiz.getDir().getAlte(), raiz.getDir().getAltd()) + 1);
+            }
+
+            
         } catch (NullPointerException e) {
             System.err.println("NullPointerException caught: " + e.getMessage());
-            e.printStackTrace();
         } catch (IllegalArgumentException e) {
             System.err.println("IllegalArgumentException caught: " + e.getMessage());
-            e.printStackTrace();
         } catch (Exception e) {
             System.err.println("Exception caught: " + e.getMessage());
-            e.printStackTrace();
         }
+        return balance(raiz);
     }
 
-
-    public void balance(Nodo raiz) {
+    public Nodo balance(Nodo raiz) {
         int balanceFactor = raiz.getAltd() - raiz.getAlte();
         if (balanceFactor == 2) {
             if (raiz.getDir().getAltd() >= raiz.getDir().getAlte()) {
@@ -206,56 +186,44 @@ public class AvlTree {
             }
         } else if (balanceFactor == -2) {
             if (raiz.getEsq().getAlte() <= raiz.getEsq().getAltd()) {
-                 rotateRight(raiz);
+                rotateRight(raiz);
             } else {
                 rotateLeft(raiz.getEsq());
-                 rotateRight(raiz);
+                rotateRight(raiz);
             }
+        }return raiz;
+    }
+
+    public Nodo rotateLeft(Nodo aux) {
+        if (aux == null || aux.getDir() == null) {
+            return aux; // Return original node if rotation isn't possible
         }
+        Nodo aux1 = aux.getDir();
+        aux.setDir(aux1.getEsq());
+        aux1.setEsq(aux);
+        updateHeight(aux);
+        updateHeight(aux1);
+        return aux1;
     }
 
-   public void rotateLeft(Nodo aux) {
-    if (aux == null || aux.getDir() == null) {
-        return; // Early return if aux or its right child is null
+    public Nodo rotateRight(Nodo aux) {
+        if (aux == null || aux.getEsq() == null) {
+            return aux; // Return original node if rotation isn't possible
+        }
+        Nodo aux1 = aux.getEsq();
+        aux.setEsq(aux1.getDir());
+        aux1.setDir(aux);
+        updateHeight(aux);
+        updateHeight(aux1);
+        return aux1;
     }
-    Nodo aux1 = aux.getDir();
-    aux.setDir(aux1.getEsq());
-    aux1.setEsq(aux);
-    updateHeight(aux);
-    updateHeight(aux1);
-}
-
-    public void rotateRight(Nodo aux) {
-    if (aux == null || aux.getEsq() == null) {
-        return; // Early return if aux or its left child is null
-    }
-    Nodo aux1 = aux.getEsq();
-    aux.setEsq(aux1.getDir());
-    aux1.setDir(aux);
-    updateHeight(aux);
-    updateHeight(aux1);
-}
 
     private void updateHeight(Nodo node) {
-        if (node.getEsq() == null) {
-            node.setAlte(0);
-        } else {
-            if (node.getEsq().getAlte() > node.getEsq().getAltd()) {
-                node.setAlte(node.getEsq().getAlte() + 1);
-            } else {
-                node.setAlte(node.getEsq().getAltd() + 1);
-            }
+        if (node == null) {
+            return;
         }
-
-        if (node.getDir() == null) {
-            node.setAltd(0);
-        } else {
-            if (node.getDir().getAlte() > node.getDir().getAltd()) {
-                node.setAltd(node.getDir().getAlte() + 1);
-            } else {
-                node.setAltd(node.getDir().getAltd() + 1);
-            }
-        }
+        node.setAlte(node.getEsq() != null ? Math.max(node.getEsq().getAlte(), node.getEsq().getAltd()) + 1 : 0);
+        node.setAltd(node.getDir() != null ? Math.max(node.getDir().getAlte(), node.getDir().getAltd()) + 1 : 0);
     }
 
     public void exibirEmOrdem(Nodo raiz) {
