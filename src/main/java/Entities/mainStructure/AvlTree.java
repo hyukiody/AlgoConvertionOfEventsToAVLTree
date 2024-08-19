@@ -59,7 +59,7 @@ public class AvlTree {
     }
 
     //função de varredura progressiva, avança pela arvore, realizando as verificações necessarias para tratamento dos registros
-    public void progressiveSwipe(LocationRegistry locationRegistry, VehicleRegistry vehicleRegistry, HashRegistry hashRegistry, VisitHistory visitHistory, Nodo raizAtual) {
+    public void varredura(LocationRegistry locationRegistry, VehicleRegistry vehicleRegistry, HashRegistry hashRegistry, VisitHistory visitHistory, Nodo raizAtual) {
         swipeCounter++;
         System.out.println("Iniciando varredura:...");
         try {
@@ -75,8 +75,8 @@ public class AvlTree {
                 for (Event event : visit.getEventRoute()) {
                     if (raizAtual.getEvent() == event) {
                         System.out.println("-Evento já tratado, avançando na árvore...");
-                        progressiveSwipe(locationRegistry, vehicleRegistry, hashRegistry, visitHistory, raizAtual.getEsq());
-                        progressiveSwipe(locationRegistry, vehicleRegistry, hashRegistry, visitHistory, raizAtual.getDir());
+                        varredura(locationRegistry, vehicleRegistry, hashRegistry, visitHistory, raizAtual.getEsq());
+                        varredura(locationRegistry, vehicleRegistry, hashRegistry, visitHistory, raizAtual.getDir());
                     }
                 }
             }
@@ -115,10 +115,17 @@ public class AvlTree {
                 Visit visitToBeAddedTo = visitHistory.getVisitByPlate(event.getCarPlate());
                 visitToBeAddedTo.addToRoute(raizAtual.getEvent());
             }
-            while (raizAtual.getEsq() != null || raizAtual.getDir() != null) {
-                progressiveSwipe(locationRegistry, vehicleRegistry, hashRegistry, visitHistory, raizAtual.getEsq());
-                progressiveSwipe(locationRegistry, vehicleRegistry, hashRegistry, visitHistory, raizAtual.getDir());
+            if (raizAtual.getEsq() != null) {
+                varredura(locationRegistry, vehicleRegistry, hashRegistry, visitHistory, raizAtual.getEsq());
             }
+            if (raizAtual.getDir() != null) {
+                varredura(locationRegistry, vehicleRegistry, hashRegistry, visitHistory, raizAtual.getDir());
+            }
+            swipeCounter=0;
+        } catch (NullPointerException e) {
+            System.err.println("NullPointerException caught in varredura: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.err.println("IllegalArgumentException caught in varredura: " + e.getMessage());
         } catch (Exception e) {
         }
     }
@@ -150,7 +157,7 @@ public class AvlTree {
     public Nodo inserirNaArvore(Nodo raiz, Event novoEvento) {
         // no caso, o parametro raiz é a raiz da árvore
         try {
-
+            
             if (raiz == null) {
                 System.out.println("nó vazio detectado; inserindo novo nodo.");
                 return createNewNode(novoEvento);
@@ -164,7 +171,6 @@ public class AvlTree {
                 raiz.setAltd(Math.max(raiz.getDir().getAlte(), raiz.getDir().getAltd()) + 1);
             }
 
-            
         } catch (NullPointerException e) {
             System.err.println("NullPointerException caught: " + e.getMessage());
         } catch (IllegalArgumentException e) {
@@ -191,7 +197,8 @@ public class AvlTree {
                 rotateLeft(raiz.getEsq());
                 rotateRight(raiz);
             }
-        }return raiz;
+        }
+        return raiz;
     }
 
     public Nodo rotateLeft(Nodo aux) {

@@ -111,11 +111,7 @@ public class main {
         String newInput42 = "2023-10-01T03:35:00,1,1,6,DEF321";
 
 
-        novaArvore.newEventInTree(newInput1);
-
-        novaArvore.newEventInTree(newInput12);
-        novaArvore.newEventInTree(newInput13);
-        novaArvore.newEventInTree(newInput14);
+        
 
         novaArvore.newEventInTree(newInput2);
         novaArvore.newEventInTree(newInput21);
@@ -132,9 +128,15 @@ public class main {
         novaArvore.newEventInTree(newInput4);
         novaArvore.newEventInTree(newInput41);
         novaArvore.newEventInTree(newInput42);
+        
+        novaArvore.newEventInTree(newInput1);
+
+        novaArvore.newEventInTree(newInput12);
+        novaArvore.newEventInTree(newInput13);
+        novaArvore.newEventInTree(newInput14);
 
 
-        novaArvore.progressiveSwipe(novaArvore.getLocationRegistry(), novaArvore.getVehicleList(), novaArvore.getHashRegistry(), novaArvore.getVisitHistory(), novaArvore.getRaiz());
+        novaArvore.varredura(novaArvore.getLocationRegistry(), novaArvore.getVehicleList(), novaArvore.getHashRegistry(), novaArvore.getVisitHistory(), novaArvore.getRaiz());
 
         novaArvore.exibirEmOrdem(novaArvore.getRaiz());
 
