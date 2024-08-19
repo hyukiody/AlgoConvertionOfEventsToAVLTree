@@ -16,7 +16,7 @@ public class Event {
 
     public Event(String carPlate, LocalDateTime horaEvento, Location eventPlace, Camera camera) {
         this.carPlate = carPlate;
-        this.horaEvento = LocalDateTime.now();
+        this.horaEvento = horaEvento;
         this.eventPlace = eventPlace;
         this.camera = camera;
     }
@@ -58,23 +58,32 @@ public class Event {
     //formato HH:mm dd/MM/yyyy , latitude, longitude,
     //cameraID , carPlate
     public Event parseEventFromString(LocationRegistry locationsList, String eventString) {
-        String attributes[] = eventString.strip().split(",");
-        LocalDateTime horaEvento = LocalDateTime.parse(attributes[0]);
-        double latitude = Double.parseDouble(attributes[1]);
-        double longitude = Double.parseDouble(attributes[2]);
-        int cameraId = Integer.parseInt(attributes[3]);
-        String carPlate = attributes[4];
+        try {
+            if (eventString == null || eventString.isEmpty()) {
+                throw new IllegalArgumentException("Event string cannot be null or empty");
+            }
+            String[] attributes = eventString.strip().split(",");
+            LocalDateTime horaEvento = LocalDateTime.parse(attributes[0]);
+            double latitude = Double.parseDouble(attributes[1]);
+            double longitude = Double.parseDouble(attributes[2]);
+            int cameraId = Integer.parseInt(attributes[3]);
+            String carPlate = attributes[4];
 
-        //retorna a localidade cadastrada
-        Location location = locationsList.getLocationByCoordinates(latitude, longitude);
-        return new Event(carPlate, horaEvento, location, location.getCameraById(cameraId));
-
-
+            // retorna a localidade cadastrada
+            Location location = locationsList.getLocationByCoordinates(latitude, longitude);
+            return new Event(carPlate, horaEvento, location, location.getCameraById(cameraId));
+        } catch (IllegalArgumentException e) {
+            System.err.println("IllegalArgumentException caught: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Exception caught: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
     }
-
     @Override
     public String toString() {
-        String body = "Detection of: " + this.carPlate + "; at " + this.eventPlace + "; \n Camera ID: " + this.camera.getId() + " Time: " + this.horaEvento;
+        String body = "Detection of: " + this.carPlate + "; at " + this.eventPlace + "; \n Camera ID: " + this.camera.getId() + " Time: " + this.horaEvento + "\n";
         return body;
     }
 

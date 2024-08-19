@@ -40,20 +40,20 @@ public class HashRegistry {
     //o objetivo de salvar os visitantes, é o de ter seu historico de visitas atraves de seu veiculo, sendo necessario a instancia de um visitante pois um veiculo implica em um motorista, e este num visitante
 
     public void addPerson(Person newPerson) {
-    int index = calculateIndex(newPerson.hashCode());
-    while (index < this.peopleTable.length && this.peopleTable[index] != null) {
-        index++;
-    }
-    if (index == this.peopleTable.length) {
-        Person[] newSizedTable = new Person[this.peopleTable.length * 2];
-        for (int i = 0; i < this.peopleTable.length; i++) {
-            newSizedTable[i] = this.peopleTable[i];
+        int index = calculateIndex(newPerson.hashCode());
+        while (index < this.peopleTable.length && this.peopleTable[index] != null) {
+            index++;
         }
-        this.peopleTable = newSizedTable;
-        index = this.peopleTable.length / 2; // Reset index to the first new slot
+        if (index == this.peopleTable.length) {
+            Person[] newSizedTable = new Person[this.peopleTable.length * 2];
+            for (int i = 0; i < this.peopleTable.length; i++) {
+                newSizedTable[i] = this.peopleTable[i];
+            }
+            this.peopleTable = newSizedTable;
+            index = this.peopleTable.length / 2; // Reset index to the first new slot
+        }
+        this.peopleTable[index] = newPerson;
     }
-    this.peopleTable[index] = newPerson;
-}
 
 
     public Person searchPersonByCarPlate(String searchPlate) {
@@ -74,10 +74,24 @@ public class HashRegistry {
         return null;
     }
 
-    // função de calculo hash
-
-
-    //implementar função da tabela hash de
+    @Override
+    public String toString() {
+        StringBuilder body = new StringBuilder();
+        body.append("HashRegistry:\n");
+        body.append("    size=").append(size);
+        body.append("\n    qtdColisoes=").append(qtdColisoes);
+        body.append("\n    peopleTable=\n");
+        for (Person person : peopleTable) {
+            if (person != null) {
+                body.append(person.toString()).append(", \n");
+            }
+        }
+        if (peopleTable.length > 0) {
+            body.setLength(body.length() - 2); // Remove the last comma and space
+        }
+        body.append("\n");
+        return body.toString();
+    }
 
     public int getCollisionCount() {
         return qtdColisoes;

@@ -11,10 +11,12 @@ public class Vehicle {
         this.plate = plate;
         this.owner = owner;
     }//construtor vazio do veiculo raiz da lista encadeada
-    public Vehicle(){}
 
-    public Vehicle vehicleFromEvent(Event event){
-        return new Vehicle(event.getCarPlate(),null);
+    public Vehicle() {
+    }
+
+    public Vehicle vehicleFromEvent(Event event) {
+        return new Vehicle(event.getCarPlate(), null);
 
     }
 
@@ -53,7 +55,23 @@ public class Vehicle {
                 aux = this.getNextInLine();
                 aux.getVehicleByPlate(plate);
             }
-        }return null;
+        }
+        return null;
 
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Vehicle:");
+        sb.append("plate='").append(plate).append('\'');
+        if (owner != null) {
+            sb.append(", owner=").append(owner.getName()); // Assuming Person class has a getName() method
+        }
+        if (nextInLine != null) {
+            sb.append(", nextInLine=").append(nextInLine.getPlate());
+        }
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -1,4 +1,4 @@
-package Entities.registry.hashRegistry;
+/*package Entities.registry.hashRegistry;
 
 import Entities.Employee;
 
@@ -61,4 +61,4 @@ public class EmployeeRegistry {
 
         return findEmployeeRecursively(current.getNextInLine(), employeeToFind);
     }
-}
+}*/

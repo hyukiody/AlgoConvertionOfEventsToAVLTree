@@ -58,6 +58,6 @@ public abstract class Person {
 
     @Override
     public String toString() {
-        return "Person{name='" + name + "', cpf='" + cpf + "', vehicle=" + vehicle + "}";
+        return "Person: Name='" + name + "', cpf='" + cpf + "', vehicle=" + vehicle + "}";
     }
 }

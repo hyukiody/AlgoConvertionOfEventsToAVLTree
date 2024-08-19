@@ -6,16 +6,9 @@ public class Employee extends Person {
 
     public Employee(String name, String cpf, Vehicle owned) {
         super(name, cpf, owned);
-        this.workplace = workplace;
     }
 
-    public String getWorkplace() {
-        return this.workplace;
-    }
 
-    public void setWorkplace(String worplace) {
-        this.workplace = workplace;
-    }
 
     //codigo retirado pois a função de varredura passou a ser propria da tabela Hash de pessoas
     //função de varredura a partir do primeiro da lista encadeada
@@ -49,4 +42,4 @@ public class Employee extends Person {
 
     }
 
-}
+

@@ -7,6 +7,10 @@ public class Nodo {
     private int num, altd, alte;
     private Nodo dir, esq;
 
+    public Nodo() {
+        this.event = new Event();
+    }
+
     public Event getEvent() {
         return this.event;
     }
@@ -53,5 +57,10 @@ public class Nodo {
 
     public void setEsq(Nodo esq) {
         this.esq = esq;
+    }
+
+    @Override
+    public String toString() {
+        return this.getEvent().toString();
     }
 }
