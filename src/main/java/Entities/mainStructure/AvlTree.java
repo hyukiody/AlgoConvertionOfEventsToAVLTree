@@ -8,12 +8,13 @@ import Entities.registry.hashRegistry.HashRegistry;
 
 
 public class AvlTree {
-    LocationRegistry locationRegistry1 = new LocationRegistry();
     private HashRegistry hashRegistry;
     private VehicleRegistry vehicleList;
     private VisitHistory visitHistory;
     private LocationRegistry locationRegistry;
     private Nodo raiz;
+    private int swipeCounter = 0;
+
 
     //não seria necessário inserir as estruturas de armazenamento de objetos na classe da arvore, mas faremos assim para exemplificar uma implementação integrada
     // poderiamos por exemplo, definir da mesma forma o uso destas nos parametros da arvore, mas instanciá-las na main e, na main, inserí-las como parametros da arvore, mas daria na mesma...
@@ -57,77 +58,68 @@ public class AvlTree {
 
 
     //função de varredura progressiva, avança pela arvore, realizando as verificações necessarias para tratamento dos registros
-    public void progressiveSwipe(LocationRegistry locationRegistry,VehicleRegistry vehicleList, HashRegistry hashRegistry, VisitHistory visitList, Nodo raizAtual) {
-        try { //verifica se nodo atual pode ser tratado
+    public void progressiveSwipe(LocationRegistry locationRegistry, VehicleRegistry vehicleList, HashRegistry hashRegistry, VisitHistory visitList, Nodo raizAtual) {
+        swipeCounter++;
+        try {
+            System.out.println(swipeCounter);
             if (raizAtual == null) {
                 return;
             } else if (raizAtual.getEvent() == null) {
+                return;
             }
-            //verifica se o evento do nodo atual ja consta na rota de alguma visita do registro de visitas
             for (Visit visit : visitList.getVisitHistory()) {
                 for (Event event : visit.getEventRoute()) {
                     if (raizAtual.getEvent() == event) {
-                        //se o evento do nodo ja houver sido tratado, avança para o proximo nodo usando recursividade
-                        progressiveSwipe(locationRegistry,vehicleList, hashRegistry, visitList, raizAtual.getEsq());
-                        progressiveSwipe(locationRegistry,vehicleList, hashRegistry, visitList, raizAtual.getDir());
+                        progressiveSwipe(locationRegistry, vehicleList, hashRegistry, visitList, raizAtual.getEsq());
+                        progressiveSwipe(locationRegistry, vehicleList, hashRegistry, visitList, raizAtual.getDir());
                     }
                 }
             }
-            //se o evento do nodo atual nao foi tratado, entao ele é verificado a seguir
             if (raizAtual.getEvent().getCamera().getId() == 1 || raizAtual.getEvent().getCamera().getId() == 6) {
-                //TRATAMENTO PARA EVENTO DA CAMERA DA ENTRADA>>se o id da camera que forneceu o evento for 1, entao o evento é de chegada e criara uma nova visita que ira se adicionar ao historicco de visitas
                 if (raizAtual.getEvent().getCamera().getId() == 1) {
-                    //tratamento do evento para eventos de chegada
                     Event event = raizAtual.getEvent();
-
-                    //procura veiculos na lista de registros
                     Vehicle newVehicle = vehicleList.findVehicleByPlate(event.getCarPlate());
-                    //se nao for registrado, cria um novo veiculo para ser registrado e implica em visitante
                     if (newVehicle == null) {
                         Guest newGuest = Guest.newGuest(null);
                         newVehicle = new Vehicle(raizAtual.getEvent().getCarPlate(), newGuest);
                         newGuest.setVehicle(newVehicle);
-                        //adiciona o novo veiculo no registro de veiculos (lista encadeada)
                         vehicleList.addVehicleToRegistry(newVehicle);
                         Visit newVisit = new Visit(visitList.getVisitHistory(), newGuest, newVehicle, raizAtual.getEvent().getHoraEvento());
-                        //adiciona a instancia da visita ao registro de visitas (arrayList)
                         visitList.addToHistory(newVisit);
-                        //adiciona a pessoa ao registro de pessoas, mesmo como visitante anonimo, deve estar la para ser referenciado caso visite novamente com seu veiculo, evitando que o algoritmo associe o mesmo veiculo a dois visitantes diferentes
                         this.hashRegistry.addPerson(newGuest);
                     } else {
-                        //caso o veiculo seja encontrado na lista de veiculos, implica ou em um funcionario, ou em um visitante
                         if (newVehicle.getOwner() instanceof Employee) {
                             Visit newEmployeeVisit = new Visit(visitList.getVisitHistory(), newVehicle.getOwner(), newVehicle, raizAtual.getEvent().getHoraEvento());
-                            //adiciona a visita ao historico de visitas
                             visitList.addToHistory(newEmployeeVisit);
                         } else if (newVehicle.getOwner() instanceof Guest) {
                             Visit newGuestVisit = new Visit(visitList.getVisitHistory(), newVehicle.getOwner(), newVehicle, raizAtual.getEvent().getHoraEvento());
                             visitList.addToHistory(newGuestVisit);
                         }
                     }
-                    //TRATAMENTO PARA EVENTO DA CAMERA DE SAIDA
                 } else if (raizAtual.getEvent().getCamera().getId() == 6) {
                     Event event = raizAtual.getEvent();
                     Visit visitToBeClosed = visitList.getVisitByPlate(raizAtual.getEvent().getCarPlate());
                     visitToBeClosed.addToRoute(raizAtual.getEvent());
                     visitToBeClosed.setEndingTime(raizAtual.getEvent().getHoraEvento());
-
                 }
-                //TRATAMENTO PROS EVENTOS DAS DEMAIS CAMERAS
             } else if (!(raizAtual.getEvent().getCamera().getId() == 1 || raizAtual.getEvent().getCamera().getId() == 6)) {
                 Event event = raizAtual.getEvent();
                 Visit visitToBeAddedTo = visitList.getVisitByPlate(raizAtual.getEvent().getCarPlate());
                 visitToBeAddedTo.addToRoute(raizAtual.getEvent());
             }
             while (raizAtual.getEsq() != null || raizAtual.getDir() != null) {
-                progressiveSwipe(locationRegistry,vehicleList, hashRegistry, visitList, raizAtual.getEsq());
-                progressiveSwipe(locationRegistry,vehicleList, hashRegistry, visitList, raizAtual.getDir());
-
+                progressiveSwipe(locationRegistry, vehicleList, hashRegistry, visitList, raizAtual.getEsq());
+                progressiveSwipe(locationRegistry, vehicleList, hashRegistry, visitList, raizAtual.getDir());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    public int getSwipeCounter() {
+        return swipeCounter;
+    }
+
 
     //metodo de instancia da arvore pra receber a string e verificar o regitro de localidades, void pois ja adiciona o novo nodo criado a partir do evento criado da string inserida
     public void newEventInTree(String novoEventoEmString) {
@@ -135,6 +127,7 @@ public class AvlTree {
             Event novoEvento = new Event().parseEventFromString(this.locationRegistry, novoEventoEmString);
             Nodo novoNodo = createNewNode(novoEvento);
             inserir(novoNodo, novoEvento);
+            System.out.println("Novo nodo inserido na árvore: " + novoEvento);
         } catch (NullPointerException e) {
             System.err.println("NullPointerException caught: " + e.getMessage());
             e.printStackTrace();

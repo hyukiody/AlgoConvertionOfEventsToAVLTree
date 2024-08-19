@@ -90,7 +90,7 @@ public class main {
         //input da entrada de 2 funcionarios e 2 visitantes
         String newInput1 = "2023-10-01T00:00:00,1,1,1,ABC123";
         String newInput12 = "2023-10-01T03:12:00,2,2,2,ABC123";
-        String newInput13 = "2023-10-01T03:21:00,2,2,6,ABC123";
+        String newInput13 = "2023-10-01T03:21:00,2,2,5,ABC123";
         String newInput14 = "2023-10-01T03:32:00,1,1,6,ABC123";
 
 
@@ -110,7 +110,7 @@ public class main {
 
         String newInput4 = "2023-10-01T02:35:00,1,1,1,DEF321";
         String newInput41 = "2023-10-01T03:30:00,2,2,2,DEF321";
-        String newInput42 = "2023-10-01T03:35:00,1,1,1,DEF321";
+        String newInput42 = "2023-10-01T03:35:00,1,1,6,DEF321";
 
 
         novaArvore.newEventInTree(newInput1);

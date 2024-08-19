@@ -83,7 +83,7 @@ public class Event {
     }
     @Override
     public String toString() {
-        String body = "Detection of: " + this.carPlate + "; at " + this.eventPlace + "; \n Camera ID: " + this.camera.getId() + " Time: " + this.horaEvento + "\n";
+        String body = "Detection of: \n" + this.carPlate + "; at " + this.eventPlace + "; \n Camera ID: " + this.camera.getId() + " Time: " + this.horaEvento + "\n";
         return body;
     }
 

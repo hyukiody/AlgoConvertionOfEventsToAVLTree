@@ -12,6 +12,7 @@ public class Location {
         this.longitude = x;
         this.latitude = y;
         this.cameras = new Camera[0];
+        System.out.println("Novo Local + latitude: " + this.latitude + "  longitude: " + this.longitude);
     }
 
     public double getLongitude() {
@@ -77,8 +78,8 @@ public class Location {
     public Camera[] getCameras() {
         return Arrays.copyOf(cameras, getCameraCount());
     }
-
-    public String LocationToString() {
+    @Override
+    public String toString() {
         return "Location: Longitude " + this.longitude + " Latitude: " + this.latitude;
     }
 }

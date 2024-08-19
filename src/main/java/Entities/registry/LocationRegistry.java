@@ -17,7 +17,7 @@ public class LocationRegistry {
         Camera camera3 = new Camera(3, "entrada", "entrada3.jpg");
         Camera camera4 = new Camera(4, "saida", "saida4.jpg");
         Camera camera5 = new Camera(5, "saida", "saida5.jpg");
-        Camera camera6 = new Camera(5, "saida", "saida6.jpg");
+        Camera camera6 = new Camera(6, "saida", "saida6.jpg");
 
         Location localEntrada = new Location(1, 1);
         localEntrada.addCamera(camera1);
@@ -28,9 +28,9 @@ public class LocationRegistry {
         Location localFim = new Location(3, 3);
         localFim.addCamera(camera3);
         localFim.addCamera(camera4);
-        locationsList.add(localEntrada);
-        locationsList.add(localMeio);
-        locationsList.add(localFim);
+        this.locationsList.add(localEntrada);
+        this.locationsList.add(localMeio);
+        this.locationsList.add(localFim);
         System.out.println("Novo registro de locais iniciado.");
 
     }
