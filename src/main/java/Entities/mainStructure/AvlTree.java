@@ -12,7 +12,7 @@ public class AvlTree {
     private VehicleRegistry vehicleList;
     private VisitHistory visitHistory;
     private LocationRegistry locationRegistry;
-    private Nodo raiz;
+    public Nodo raiz;
     private int swipeCounter = 0;
 
 
@@ -23,17 +23,19 @@ public class AvlTree {
         this.vehicleList = new VehicleRegistry();
         this.visitHistory = new VisitHistory();
         this.locationRegistry = new LocationRegistry();
-        this.raiz = null;
+        this.raiz = new Nodo();
     }
 
     private Nodo createNewNode(Event novoEvento) {
-        Nodo novoNodo = new Nodo(null);
-        novoNodo.setEvent(novoEvento);
+        Nodo novoNodo = new Nodo(novoEvento);
         novoNodo.setAltd(0);
         novoNodo.setAlte(0);
         novoNodo.setEsq(null);
         novoNodo.setDir(null);
         return novoNodo;
+    }
+    public void setRaiz(Nodo novoNodo){
+        this.raiz=novoNodo;
     }
 
     public Nodo getRaiz() {
@@ -73,6 +75,7 @@ public class AvlTree {
             for (Visit visit : visitHistory.getVisitHistory()) {
                 for (Event event : visit.getEventRoute()) {
                     if (raizAtual.getEvent() == event) {
+                        System.out.println("-Evento já tratado, avançando na árvore...");
                         progressiveSwipe(locationRegistry, vehicleRegistry, hashRegistry, visitHistory, raizAtual.getEsq());
                         progressiveSwipe(locationRegistry, vehicleRegistry, hashRegistry, visitHistory, raizAtual.getDir());
                     }
@@ -135,7 +138,7 @@ public class AvlTree {
 
             Event novoEvento = new Event();
             novoEvento = novoEvento.parseEventFromString(this.locationRegistry, novoEventoEmString);
-            inserirNaArvore(this.raiz, novoEvento);
+            inserirNaArvore(this.getRaiz(), novoEvento);
             System.out.println("Novo nodo inserido na árvore:  \n" + novoEvento);
         }
 
@@ -155,8 +158,11 @@ public class AvlTree {
     public void inserirNaArvore(Nodo raiz, Event novoEvento) {
         // no caso, o parametro raiz é a raiz da árvore
         try {
+
             if (raiz == null) {
-                raiz = new Nodo(novoEvento);
+                System.out.println("nó vazio detectado; inserindo novo nodo.");
+                raiz = createNewNode(novoEvento);
+                System.out.println("verificando..." + raiz);
             } else {
                 if (novoEvento.getHoraEvento().isBefore(raiz.getEvent().getHoraEvento())) {
                     inserirNaArvore(raiz.getEsq(), novoEvento);
@@ -208,21 +214,27 @@ public class AvlTree {
         }
     }
 
-    public void rotateLeft(Nodo aux) {
-        Nodo aux1 = aux.getDir();
-        aux.setDir(aux1.getEsq());
-        aux1.setEsq(aux);
-        updateHeight(aux);
-        updateHeight(aux1);
+   public void rotateLeft(Nodo aux) {
+    if (aux == null || aux.getDir() == null) {
+        return; // Early return if aux or its right child is null
     }
+    Nodo aux1 = aux.getDir();
+    aux.setDir(aux1.getEsq());
+    aux1.setEsq(aux);
+    updateHeight(aux);
+    updateHeight(aux1);
+}
 
     public void rotateRight(Nodo aux) {
-        Nodo aux1 = aux.getEsq();
-        aux.setEsq(aux1.getDir());
-        aux1.setDir(aux);
-        updateHeight(aux);
-        updateHeight(aux1);
+    if (aux == null || aux.getEsq() == null) {
+        return; // Early return if aux or its left child is null
     }
+    Nodo aux1 = aux.getEsq();
+    aux.setEsq(aux1.getDir());
+    aux1.setDir(aux);
+    updateHeight(aux);
+    updateHeight(aux1);
+}
 
     private void updateHeight(Nodo node) {
         if (node.getEsq() == null) {

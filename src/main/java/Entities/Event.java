@@ -13,7 +13,7 @@ public class Event {
     private Camera camera;
 
     // Placeholder constructor
-public Event() {
+    public Event() {
     this.carPlate = "UNKNOWN";
     this.horaEvento = LocalDateTime.parse("2012-01-01T00:00:00");
     this.eventPlace = new Location(0, 0);

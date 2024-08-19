@@ -7,6 +7,11 @@ public class Nodo {
     private int num, altd, alte;
     private Nodo dir, esq;
 
+    public Nodo(){
+        this.event= new Event();
+
+
+    }
     public Nodo(Event givenEvent) {
         this.event = givenEvent;
     }
@@ -61,6 +66,6 @@ public class Nodo {
 
     @Override
     public String toString() {
-        return this.getEvent().toString();
+        return "Nodo do evento: " + this.getEvent().toString();
     }
 }
