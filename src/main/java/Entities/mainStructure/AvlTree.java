@@ -12,7 +12,7 @@ public class AvlTree {
     private VehicleRegistry vehicleList;
     private VisitHistory visitHistory;
     private LocationRegistry locationRegistry;
-    public Nodo raiz;
+    private Nodo raiz;
     private int swipeCounter = 0;
 
     //não seria necessário inserir as estruturas de armazenamento de objetos na classe da arvore, mas faremos assim para exemplificar uma implementação integrada
@@ -23,15 +23,6 @@ public class AvlTree {
         this.visitHistory = new VisitHistory();
         this.locationRegistry = new LocationRegistry();
         this.raiz = new Nodo();
-    }
-
-    private Nodo createNewNode(Event novoEvento) {
-        Nodo novoNodo = new Nodo(novoEvento);
-        novoNodo.setAltd(0);
-        novoNodo.setAlte(0);
-        novoNodo.setEsq(null);
-        novoNodo.setDir(null);
-        return novoNodo;
     }
 
     public void setRaiz(Nodo novoNodo) {
@@ -90,33 +81,33 @@ public class AvlTree {
                     Vehicle newVehicle = vehicleRegistry.findVehicleByPlate(event.getCarPlate());
                     if (newVehicle == null) {
                         Guest newGuest = Guest.newGuest(null);
-                        newVehicle = new Vehicle(raizAtual.getEvent().getCarPlate(), newGuest);
+                        newVehicle = new Vehicle(event.getCarPlate(), newGuest);
                         newGuest.setVehicle(newVehicle);
                         vehicleRegistry.addVehicleToRegistry(newVehicle);
-                        Visit newVisit = new Visit(visitHistory.getVisitHistory(), newGuest, newVehicle, raizAtual.getEvent().getHoraEvento());
+                        Visit newVisit = new Visit(visitHistory.getVisitHistory(), newGuest, newVehicle, event.getHoraEvento());
                         visitHistory.addToHistory(newVisit);
                         System.out.println("Adicionando nova visita ao registro...");
-                        this.hashRegistry.addPerson(newGuest);
+                        hashRegistry.addPerson(newGuest);
                         System.out.println("Adicionando visitante ao registro...");
                     } else {
                         if (newVehicle.getOwner() instanceof Employee) {
-                            Visit newEmployeeVisit = new Visit(visitHistory.getVisitHistory(), newVehicle.getOwner(), newVehicle, raizAtual.getEvent().getHoraEvento());
+                            Visit newEmployeeVisit = new Visit(visitHistory.getVisitHistory(), newVehicle.getOwner(), newVehicle, event.getHoraEvento());
                             visitHistory.addToHistory(newEmployeeVisit);
                             System.out.println("Nova visita de funcionario detectada...");
                         } else if (newVehicle.getOwner() instanceof Guest) {
-                            Visit newGuestVisit = new Visit(visitHistory.getVisitHistory(), newVehicle.getOwner(), newVehicle, raizAtual.getEvent().getHoraEvento());
+                            Visit newGuestVisit = new Visit(visitHistory.getVisitHistory(), newVehicle.getOwner(), newVehicle, event.getHoraEvento());
                             visitHistory.addToHistory(newGuestVisit);
                         }
                     }
                 } else if (raizAtual.getEvent().getCamera().getId() == 6) {
                     Event event = raizAtual.getEvent();
-                    Visit visitToBeClosed = visitHistory.getVisitByPlate(raizAtual.getEvent().getCarPlate());
-                    visitToBeClosed.addToRoute(raizAtual.getEvent());
-                    visitToBeClosed.setEndingTime(raizAtual.getEvent().getHoraEvento());
+                    Visit visitToBeClosed = visitHistory.getVisitInVisitListByPlate(event.getCarPlate());
+                    visitToBeClosed.addToRoute(event);
+                    visitToBeClosed.setEndingTime(event.getHoraEvento());
                 }
             } else if (!(raizAtual.getEvent().getCamera().getId() == 1 || raizAtual.getEvent().getCamera().getId() == 6)) {
                 Event event = raizAtual.getEvent();
-                Visit visitToBeAddedTo = visitHistory.getVisitByPlate(event.getCarPlate());
+                Visit visitToBeAddedTo = visitHistory.getVisitInVisitListByPlate(event.getCarPlate());
                 visitToBeAddedTo.addToRoute(raizAtual.getEvent());
             }
             if (raizAtual.getEsq() != null) {
@@ -138,6 +129,15 @@ public class AvlTree {
         return swipeCounter;
     }
 
+    private Nodo createNewNode(Event novoEvento) {
+        Nodo novoNodo = new Nodo(novoEvento);
+        novoNodo.setAltd(0);
+        novoNodo.setAlte(0);
+        novoNodo.setEsq(null);
+        novoNodo.setDir(null);
+        return novoNodo;
+    }
+
     //metodo de instancia da arvore pra receber a string e verificar o regitro de localidades, void pois ja adiciona o novo nodo criado a partir do evento criado da string inserida
     public Nodo newEventInTree(String novoEventoEmString) {
         try {
@@ -146,7 +146,7 @@ public class AvlTree {
 
             Event novoEvento = new Event();
             novoEvento = novoEvento.parseEventFromString(this.locationRegistry, novoEventoEmString);
-            setRaiz(inserirNaArvore(this.getRaiz(), novoEvento));
+            this.setRaiz(inserirNaArvore(this.getRaiz(), novoEvento));
 
             System.out.println("Novo nodo inserido na árvore:  \n" + novoEvento);
         } catch (NullPointerException e) {
@@ -164,12 +164,10 @@ public class AvlTree {
         // no caso, o parametro raiz é a raiz da árvore
         try {
 
-            if (raiz == null) {
+            if (raiz == null || raiz.getEvent() == null) {
                 System.out.println("nó vazio detectado; inserindo novo nodo.");
                 return createNewNode(novoEvento);
-            }
-
-            if (novoEvento.getHoraEvento().isBefore(raiz.getEvent().getHoraEvento())) {
+            } else if (novoEvento.getHoraEvento().isBefore(raiz.getEvent().getHoraEvento())) {
                 raiz.setEsq(inserirNaArvore(raiz.getEsq(), novoEvento));
                 raiz.setAlte(Math.max(raiz.getEsq().getAlte(), raiz.getEsq().getAltd()) + 1);
             } else {

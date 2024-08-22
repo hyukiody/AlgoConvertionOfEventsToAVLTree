@@ -10,22 +10,22 @@ import java.util.ArrayList;
 public class main {
 
     public static void main(String[] args) {
-
-        //arvorebinaria vai possuir as estruturas auxiliares abaixo:
-        //inicializar estruturas auxiliares: listas e conjuntos de armazenamento:
-        // hash do registro paras listas de pessoas> funcionarios e visitantes
-        // lista encadeada de veículos >> cada veiculo aponta para seu proprietario (funcionario ou visitante)
-        //
-        //arvore binaria tambem possui algoritmo responsavel por sua varredura 
-        //de eventos que inicia e encerra visitas, atualizando as estruturas auxiliares
-
         /*
+       arvorebinaria vai possuir as estruturas auxiliares abaixo:
+       inicializar estruturas auxiliares: listas e conjuntos de armazenamento:
+        hash do registro paras listas de pessoas> funcionarios e visitantes
+        lista encadeada de veículos >> cada veiculo aponta para seu proprietario (funcionario ou visitante)
+       
+       arvore binaria tambem possui algoritmo responsavel por sua varredura 
+       de eventos que inicia e encerra visitas, atualizando as estruturas auxiliares
+
+       
         EmployeeRegistry employeeRegistry = new EmployeeRegistry();
         GuestRegistry guestRegistry = new GuestRegistry();
         LocationRegistry locationRegistry = new LocationRegistry();
         ArrayList<Visit> visitHistory = new ArrayList<>(); // Lista de visitas
 
-        // Criar instâncias de Employee e Guest
+        Criar instâncias de Employee e Guest
         Employee emp1 = new Employee("John Doe", "12345", new Vehicle("ABC-1234", null));
         Guest guest1 = new Guest("Jane Doe", "67890", new Vehicle("XYZ-9876", null));
 
@@ -114,26 +114,26 @@ public class main {
         String newInput41 = "2023-10-01T03:30:00,2,2,2,DEF321";
         String newInput42 = "2023-10-01T03:35:00,1,1,6,DEF321";
 
-        novaArvore.setRaiz(novaArvore.newEventInTree(newInput2));
-        novaArvore.setRaiz(novaArvore.newEventInTree(newInput21));
-        novaArvore.setRaiz(novaArvore.newEventInTree(newInput22));
-        novaArvore.setRaiz(novaArvore.newEventInTree(newInput23));
-        novaArvore.setRaiz(novaArvore.newEventInTree(newInput24));
-        novaArvore.setRaiz(novaArvore.newEventInTree(newInput25));
+        novaArvore.newEventInTree(newInput2);
+        novaArvore.newEventInTree(newInput21);
+        novaArvore.newEventInTree(newInput22);
+        novaArvore.newEventInTree(newInput23);
+        novaArvore.newEventInTree(newInput24);
+        novaArvore.newEventInTree(newInput25);
 
-        novaArvore.setRaiz(novaArvore.newEventInTree(newInput3));
-        novaArvore.setRaiz(novaArvore.newEventInTree(newInput31));
-        novaArvore.setRaiz(novaArvore.newEventInTree(newInput32));
-        novaArvore.setRaiz(novaArvore.newEventInTree(newInput33));
+        novaArvore.newEventInTree(newInput3);
+        novaArvore.newEventInTree(newInput31);
+        novaArvore.newEventInTree(newInput32);
+        novaArvore.newEventInTree(newInput33);
 
         novaArvore.newEventInTree(newInput4);
         novaArvore.newEventInTree(newInput41);
         novaArvore.newEventInTree(newInput42);
 
-        novaArvore.setRaiz(novaArvore.newEventInTree(newInput1));
-        novaArvore.setRaiz(novaArvore.newEventInTree(newInput12));
-        novaArvore.setRaiz(novaArvore.newEventInTree(newInput13));
-        novaArvore.setRaiz(novaArvore.newEventInTree(newInput14));
+        novaArvore.newEventInTree(newInput1);
+        novaArvore.newEventInTree(newInput12);
+        novaArvore.newEventInTree(newInput13);
+        novaArvore.newEventInTree(newInput14);
 
         novaArvore.varredura(novaArvore.getLocationRegistry(), novaArvore.getVehicleList(), novaArvore.getHashRegistry(), novaArvore.getVisitHistory(), novaArvore.getRaiz());
 

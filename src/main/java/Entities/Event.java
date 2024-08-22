@@ -14,11 +14,11 @@ public class Event {
 
     // Placeholder constructor
     public Event() {
-    this.carPlate = "UNKNOWN";
-    this.horaEvento = LocalDateTime.parse("2012-01-01T00:00:00");
-    this.eventPlace = new Location(0, 0);
-    this.camera = new Camera(0, "none", "none");
-}
+        this.carPlate = "UNKNOWN";
+        this.horaEvento = LocalDateTime.parse("2012-01-01T00:00:00");
+        this.eventPlace = new Location(0, 0);
+        this.camera = new Camera(0, "none", "none");
+    }
 
     public Event(String carPlate, LocalDateTime horaEvento, Location eventPlace, Camera camera) {
         this.carPlate = carPlate;
@@ -70,7 +70,7 @@ public class Event {
             }
             {
                 String[] attributes = eventString.strip().split(",");
-                if (attributes.length==5) {
+                if (attributes.length == 5) {
                     LocalDateTime horaEvento = LocalDateTime.parse(attributes[0]);
                     double latitude = Double.parseDouble(attributes[1]);
                     double longitude = Double.parseDouble(attributes[2]);
@@ -79,8 +79,13 @@ public class Event {
 
                     // retorna a localidade cadastrada
                     Location location = locationsList.getLocationByCoordinates(latitude, longitude);
-                    return new Event(carPlate, horaEvento, location, location.getCameraById(cameraId));
-                }else{
+
+                    this.carPlate = carPlate;
+                    this.horaEvento = horaEvento;
+                    this.eventPlace = location;
+                    this.camera = location.getCameraById(cameraId);
+                     return this;
+                } else {
                     throw new IllegalArgumentException("String is not well formatted");
                 }
             }

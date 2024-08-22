@@ -5,10 +5,10 @@ import Entities.Visit;
 import java.util.ArrayList;
 
 public class VisitHistory {
-    public ArrayList<Visit> visitHistory;
+    private ArrayList<Visit> visitHistory;
 
     public VisitHistory() {
-        this.visitHistory = new ArrayList<>();
+        this.visitHistory = new ArrayList<Visit>();
     }
 
     public void addToHistory(Visit newVisit) {
@@ -20,7 +20,7 @@ public class VisitHistory {
     }
 
     //metodo de consulta do historico de visitas a partir da placa do carro detectada no evento
-    public Visit getVisitByPlate(String eventPlate) {
+    public Visit getVisitInVisitListByPlate(String eventPlate) {
         for (Visit visit : this.visitHistory) {
             //verificação dupla que impede o retorno de uma visita ja encerrada
             if (visit.getVehicle().getPlate().equals(eventPlate)&& visit.getEndingTime()==null) {
