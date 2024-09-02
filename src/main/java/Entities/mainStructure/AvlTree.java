@@ -169,7 +169,7 @@ public class AvlTree {
                 return createNewNode(novoEvento);
             } else if (novoEvento.getHoraEvento().isBefore(raiz.getEvent().getHoraEvento())) {
                 raiz.setEsq(inserirNaArvore(raiz.getEsq(), novoEvento));
-                raiz.setAlte(Math.max(raiz.getEsq().getAlte(), raiz.getEsq().getAltd()) + 1);
+                raiz.setAlte(Math.max(raiz.getEsq().getAlte(), raiz.getEsq().getAltd()) + 1); 
             } else {
                 raiz.setDir(inserirNaArvore(raiz.getDir(), novoEvento));
                 raiz.setAltd(Math.max(raiz.getDir().getAlte(), raiz.getDir().getAltd()) + 1);
