@@ -78,24 +78,24 @@ public class AvlTree {
             if (raizAtual.getEvent().getCamera().getId() == 1 || raizAtual.getEvent().getCamera().getId() == 6) {
                 if (raizAtual.getEvent().getCamera().getId() == 1) {
                     Event event = raizAtual.getEvent();
-                    Vehicle newVehicle = getVehicleRegistry().findVehicleByPlate(event.getCarPlate());
-                    if (newVehicle == null) {
+                    Vehicle vehicleIterator = getVehicleRegistry().findVehicleByPlate(event.getCarPlate());
+                    if (vehicleIterator == null) {
                         Guest newGuest = Guest.newGuest(event.getCarPlate());
-                        newVehicle = newGuest.getVehicle();
-                        newGuest.setVehicle(newVehicle);
-                        getVehicleRegistry().addVehicleToRegistry(newVehicle);
-                        Visit newVisit = new Visit(getVisitHistory().getHistoryList(), newGuest, newVehicle, event.getEventTime());
+                        vehicleIterator = newGuest.getVehicle();
+                        newGuest.setVehicle(vehicleIterator);
+                        getVehicleRegistry().addVehicleToRegistry(vehicleIterator);
+                        Visit newVisit = new Visit(getVisitHistory().getHistoryList(), newGuest, vehicleIterator, event.getEventTime());
                         getVisitHistory().addToHistory(newVisit);
                         System.out.println("Adicionando nova visita ao registro...");
                         getHashRegistry().addPerson(newGuest);
                         System.out.println("Adicionando visitante ao registro...");
                     } else {
-                        if (newVehicle.getOwner() instanceof Employee) {
-                            Visit newEmployeeVisit = new Visit(getVisitHistory().getHistoryList(), newVehicle.getOwner(), newVehicle, event.getEventTime());
+                        if (vehicleIterator.getOwner() instanceof Employee) {
+                            Visit newEmployeeVisit = new Visit(getVisitHistory().getHistoryList(), vehicleIterator.getOwner(), vehicleIterator, event.getEventTime());
                             getVisitHistory().addToHistory(newEmployeeVisit);
                             System.out.println("Nova visita de funcionario detectada...");
-                        } else if (newVehicle.getOwner() instanceof Guest) {
-                            Visit newGuestVisit = new Visit(getVisitHistory().getHistoryList(), newVehicle.getOwner(), newVehicle, event.getEventTime());
+                        } else if (vehicleIterator.getOwner() instanceof Guest) {
+                            Visit newGuestVisit = new Visit(getVisitHistory().getHistoryList(), vehicleIterator.getOwner(), vehicleIterator, event.getEventTime());
                             getVisitHistory().addToHistory(newGuestVisit);
                         }
                     }
@@ -128,7 +128,7 @@ public class AvlTree {
             if (raizAtual.getDir() != null) {
                 varreduraVisitas(raizAtual.getDir());
             }
-            contador = 0;
+
         } catch (NullPointerException e) {
             System.err.println("NullPointerException caught in varredura: " + e.getMessage());
             e.printStackTrace();

@@ -82,7 +82,7 @@ public class Visit {
 
     @Override
     public String toString() {
-        String body = "Visit info: \n" + "Start time: " + getStartingTime() + "Rota atual:";
+        String body = "Visit info: \n" + "Start time: " + getStartingTime() + "\n Rota atual:";
         for (Event event : getEventRoute()) {
             body += event.toString();
         }
