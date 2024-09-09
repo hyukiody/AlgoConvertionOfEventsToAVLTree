@@ -15,11 +15,11 @@ public class main {
        inicializar estruturas auxiliares: listas e conjuntos de armazenamento:
         hash do registro paras listas de pessoas> funcionarios e visitantes
         lista encadeada de veículos >> cada veiculo aponta para seu proprietario (funcionario ou visitante)
-       
-       arvore binaria tambem possui algoritmo responsavel por sua varredura 
+
+       arvore binaria tambem possui algoritmo responsavel por sua varredura
        de eventos que inicia e encerra visitas, atualizando as estruturas auxiliares
 
-       
+
         EmployeeRegistry employeeRegistry = new EmployeeRegistry();
         GuestRegistry guestRegistry = new GuestRegistry();
         LocationRegistry locationRegistry = new LocationRegistry();
@@ -80,18 +80,17 @@ public class main {
         novaArvore.getVehicleRegistry().addVehicleToRegistry(emp1Car);
         novaArvore.getVehicleRegistry().addVehicleToRegistry(emp2Car);
         novaArvore.getVehicleRegistry().printVehiclesInList();
-        
+
         novaArvore.getHashRegistry().addPerson(emp1);
         novaArvore.getHashRegistry().addPerson(emp2);
         System.out.println(novaArvore.getHashRegistry().toString());
-        
+
         /*
         Vehicle iterateVehicle = novaArvore.getVehicleRegistry().getRaiz();
         while (iterateVehicle != null) {
             System.out.println(iterateVehicle);
             iterateVehicle = iterateVehicle.getNextInLine();
         }*/
-
         //input da entrada de 2 funcionarios e 2 visitantes
         String newInput1 = "2023-10-01T00:00:00,1,1,1,ABC123";
         String newInput12 = "2023-10-01T03:12:00,2,2,2,ABC123";
@@ -130,16 +129,16 @@ public class main {
         novaArvore.newEventInTree(newInput41);
         novaArvore.newEventInTree(newInput42);
 
-        novaArvore.newEventInTree(newInput1);
-        novaArvore.newEventInTree(newInput12);
-        novaArvore.newEventInTree(newInput13);
-        novaArvore.newEventInTree(newInput14);
+        novaArvore.varreduraVisitas(novaArvore.getRaiz());
 
-        novaArvore.varredura(novaArvore.getLocationRegistry(), novaArvore.getVehicleList(), novaArvore.getHashRegistry(), novaArvore.getVisitHistory(), novaArvore.getRaiz());
+        System.out.println("Exibindo visitas do registro");
+        System.out.println(novaArvore.getVisitHistory());
 
+
+        System.out.println("\n ---------------------- \n Exibindo em ordem:");
         novaArvore.exibirEmOrdem(novaArvore.getRaiz());
-
-        for (Visit visit : novaArvore.getVisitHistory().getVisitHistory()) {
+        System.out.println("\n------------\n exibindo nomes dos visitantes");
+        for (Visit visit : novaArvore.getVisitHistory().getHistoryList()) {
             System.out.println(visit.getVisitor().getName());
         }
 

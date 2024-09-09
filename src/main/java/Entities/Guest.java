@@ -1,18 +1,19 @@
 package Entities;
 
-
 public class Guest extends Person {
-
 
     public Guest(String name, String cpf, Vehicle owned) {
         super(name, cpf, owned);
     }
 
-    public static Guest newGuest(Vehicle newVehicle) {
+    //static constructor for the instantiation of a new vehicle and a new owner with only the carPlate from event
+    public static Guest newGuest(String carPlate) {
         String name = "Unknown ";
         String cpf = "Unknown";
-
-        return new Guest(name, cpf, newVehicle);
+        Vehicle newVehicle = new Vehicle();
+        Guest thisOwner = new Guest(name, cpf, newVehicle);
+        newVehicle.setOwner(thisOwner);
+        return thisOwner;
 
     }
 

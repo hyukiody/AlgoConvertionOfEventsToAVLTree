@@ -8,21 +8,21 @@ import java.util.ArrayList;
 public class Event {
 
     private String carPlate;
-    private LocalDateTime horaEvento;
+    private LocalDateTime eventTime;
     private Location eventPlace;
     private Camera camera;
 
     // Placeholder constructor
     public Event() {
         this.carPlate = "UNKNOWN";
-        this.horaEvento = LocalDateTime.parse("2012-01-01T00:00:00");
+        this.eventTime = LocalDateTime.parse("2012-01-01T00:00:00");
         this.eventPlace = new Location(0, 0);
         this.camera = new Camera(0, "none", "none");
     }
 
     public Event(String carPlate, LocalDateTime horaEvento, Location eventPlace, Camera camera) {
         this.carPlate = carPlate;
-        this.horaEvento = horaEvento;
+        this.eventTime = horaEvento;
         this.eventPlace = eventPlace;
         this.camera = camera;
     }
@@ -35,12 +35,12 @@ public class Event {
         this.carPlate = carPlate;
     }
 
-    public LocalDateTime getHoraEvento() {
-        return this.horaEvento;
+    public LocalDateTime getEventTime() {
+        return this.eventTime;
     }
 
-    public void setHoraEvento(LocalDateTime horaEvento) {
-        this.horaEvento = horaEvento;
+    public void setEventTime(LocalDateTime eventTime) {
+        this.eventTime = eventTime;
 
     }
 
@@ -81,7 +81,7 @@ public class Event {
                     Location location = locationsList.getLocationByCoordinates(latitude, longitude);
 
                     this.carPlate = carPlate;
-                    this.horaEvento = horaEvento;
+                    this.eventTime = horaEvento;
                     this.eventPlace = location;
                     this.camera = location.getCameraById(cameraId);
                      return this;
@@ -101,7 +101,7 @@ public class Event {
 
     @Override
     public String toString() {
-        String body = "Detection of: Plate:   " + this.carPlate + "; at " + this.eventPlace + "; \n Camera ID: " + this.camera.getId() + " Time: " + this.horaEvento + "\n";
+        String body = "Detection of: Plate:   " + this.carPlate + "; at " + this.eventPlace + "; \n Camera ID: " + this.camera.getId() + " Time: " + this.eventTime + "\n";
         return body;
     }
 

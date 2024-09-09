@@ -12,14 +12,15 @@ public class Visit {
     private LocalDateTime startingTime;
     private LocalDateTime endingTime;
 
-    public Visit(ArrayList<Visit> visitHistory, Person visitor, Vehicle visitorCar, LocalDateTime startingTime) {
+    public Visit(ArrayList<Visit> historyList, Person visitor, Vehicle visitorCar, LocalDateTime startingTime) {
         this.eventRoute = new ArrayList<Event>();
         this.visitor = visitor;
         this.visitorCar = visitorCar;
         this.startingTime = startingTime;
-        visitHistory.add(this);
+        historyList.add(this);
 
     }
+
     /*
     //construtor com verificação de visita em aberto
     public Visit newVisitOrGetOngoingVisit(ArrayList<Visit> visitHistory, Event chegada, Person visitor, Vehicle visitorCar, LocalDateTime startingTime) {
@@ -39,8 +40,6 @@ public class Visit {
 
         return new Visit(visitHistory, eventRoute, newVisitor, newVisitorCar, newStartingTime);
     }*/
-
-
     public Person getVisitor() {
         return this.visitor;
     }
@@ -81,4 +80,13 @@ public class Visit {
         this.eventRoute.add(event);
     }
 
+    @Override
+    public String toString() {
+        String body = "Visit info: \n" + "Start time: " + getStartingTime() + "Rota atual:";
+        for (Event event : getEventRoute()) {
+            body += event.toString();
+        }
+        body += ("Visitor: " + visitor);
+        return body;
+    }
 }

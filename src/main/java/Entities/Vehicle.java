@@ -12,6 +12,10 @@ public class Vehicle {
         this.owner = owner;
     }//construtor vazio do veiculo raiz da lista encadeada
 
+    public Vehicle(String carPlate){
+
+    }
+
     public Vehicle() {
     }
 
